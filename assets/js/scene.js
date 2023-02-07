@@ -1,4 +1,5 @@
 var canvas = document.getElementById("renderCanvas");
+
 var engine = null;
 var scene = null;
 var sceneToRender = null;
@@ -12,7 +13,30 @@ var startRenderLoop = function (engine, canvas) {
 }
 
      
+var addPointerEvent=function(scene){
+    scene.onPointerObservable.add((pointerInfo) => {
+        if(pointerInfo && pointerInfo.pickInfo){
+            switch (pointerInfo.type) {
+       case BABYLON.PointerEventTypes.POINTERTAP:{
+        pickedPoint(scene);
+    }
+    break;
+            }
+        }
+    });
+}
 
+var pickedPoint = function (scene) {
+    var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), null);
+    var hit = scene.pickWithRay(ray);
+    if(hit.hit){
+        var pickedPoint = hit.pickedPoint;
+        ax = pickedPoint.x;
+        ay = pickedPoint.y;
+        az = pickedPoint.z;
+        console.log("Sprite Position", pickedPoint);
+    }
+}
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 
@@ -24,26 +48,28 @@ var createScene = async function () {
     camera.attachControl(canvas, true);
 
 
-    var playerEntity = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
-    playerEntity.position = camera.position;
-    var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
-    playerMaterial.transparency = true;
-    playerMaterial.alpha = 0.5;
-    playerEntity.material = playerMaterial;
-    // Tie the mesh to the camera entity
-    playerEntity.parent = camera;
-    playerEntity.checkCollisions = true;
+    // var playerEntity = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
+    // playerEntity.position = camera.position;
+    // var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
+    // playerMaterial.transparency = true;
+    // playerMaterial.alpha = 0.5;
+    // playerEntity.material = playerMaterial;
+    // // Tie the mesh to the camera entity
+    // playerEntity.parent = camera;
+    // playerEntity.checkCollisions = true;
   
 
-    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-    light.intensity = 1;    
+    addPointerEvent(scene);
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
+    light.intensity = 10;    
     var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
             sessionMode: 'immersive-ar'
         },
         optionalFeatures: true,
     });
-    await createSprite(scene,camera,playerEntity);
+    await createSprite(scene,camera);
+    // await createWorld(scene,camera);
     return scene;
 };
 

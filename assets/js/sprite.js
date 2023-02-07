@@ -1,6 +1,6 @@
 
 
-var createSprite = async function (scene,camera, playerEntity) {
+var createSprite = async function (scene,camera) {
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
 
@@ -8,7 +8,7 @@ var createSprite = async function (scene,camera, playerEntity) {
     attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
     attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
 
-    let cameraPosition = playerEntity.position;
+    let cameraPosition = camera.position;
     let position ={x:2,y:1,z:4}
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+0, {size: 1}, scene);
     sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
@@ -16,16 +16,17 @@ var createSprite = async function (scene,camera, playerEntity) {
     //   Create a particle system
     sprite.isPickable = true;
 
-    const particleSystem = new BABYLON.ParticleSystem("particles", 10);
+    const particleSystem = new BABYLON.ParticleSystem("particles", 5);
 
     //Texture of each particle
-    particleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png");
+    particleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png");
     particleSystem.emitter = sprite;
     particleSystem.start();
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
-	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
-		console.log("sprite")
+	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
+		var targetPosition= evt.additionalData.pickedPoint
+        
 	}));
 
     setInterval(() => {
@@ -54,12 +55,12 @@ var createSprite = async function (scene,camera, playerEntity) {
 
         scene.beginAnimation(attackBall, 0, 100, false);
         // Check for collision in each frame
-        scene.registerBeforeRender(function () {
-            var collisions = attackBall.intersectsMesh(playerEntity);
-            if (collisions.length > 0) {
-                console.log("Collision detected!"+collisions.length);
-            }
-        });
+        // scene.registerBeforeRender(function () {
+        //     var collisions = attackBall.intersectsMesh(playerEntity);
+        //     if (collisions.length > 0) {
+        //         console.log("Collision detected!"+collisions.length);
+        //     }
+        // });
 
     }, 3000);
 
