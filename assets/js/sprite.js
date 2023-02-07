@@ -15,6 +15,12 @@ var createSprite = async function (scene) {
     particleSystem.emitter = sprite;
     particleSystem.start();
 
+    sprite.actionManager = new BABYLON.ActionManager(scene);
+	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
+		console.log(sprite)
+	}));
+    
+
 }
 
 

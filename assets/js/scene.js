@@ -24,25 +24,12 @@ var createScene = async function () {
     camera.attachControl(canvas, true);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
     light.intensity = 1;    
-    const xr = await scene.createDefaultXRExperienceAsync({
+    var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
             sessionMode: 'immersive-ar'
         },
         optionalFeatures: true,
     });
-
-    scene.onPointerObservable.add((e) => {
-        if (e.type === BABYLON.PointerEventTypes.POINTERUP) {
-            const multiPickInfo = scene.multiPick(scene.pointerX, scene.pointerY)
-            if (multiPickInfo.length > 1) {
-                multiPickInfo.slice(1).forEach(pickInfo => {
-                    if (pickInfo.pickedMesh?.renderingGroupId === 1) {
-                        pickInfo.pickedMesh.rotate(BABYLON.Axis.Y, -0.2, BABYLON.Space.WORLD)
-                    }
-                })
-            }
-        }
-    })
 
     return scene;
 };
