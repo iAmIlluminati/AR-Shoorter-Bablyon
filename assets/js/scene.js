@@ -22,6 +22,19 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
+
+
+    var playerEntity = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
+    playerEntity.position = camera.position;
+    var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
+    playerMaterial.transparency = true;
+    playerMaterial.alpha = 0.5;
+    playerEntity.material = playerMaterial;
+    // Tie the mesh to the camera entity
+    playerEntity.parent = camera;
+    playerEntity.checkCollisions = true;
+  
+
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
     light.intensity = 1;    
     var xr = await scene.createDefaultXRExperienceAsync({
@@ -30,7 +43,7 @@ var createScene = async function () {
         },
         optionalFeatures: true,
     });
-
+    await createSprite(scene,camera,playerEntity);
     return scene;
 };
 
@@ -50,21 +63,22 @@ window.initFunction = async function () {
     startRenderLoop(engine, canvas);
     window.scene = createScene();
 };
+initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returnedScene; });});
 
-var loadScene= async function(){
-    await initFunction()
-    scene.then(returnedScene => {
-        createSprite(returnedScene).then((returnedScene2)=>{
-            sceneToRender = returnedScene;
+// var loadScene= async function(){
+//     await initFunction()
+//     scene.then(returnedScene => {
+//         createSprite(returnedScene).then((returnedScene2)=>{
+//             sceneToRender = returnedScene;
 
-            console.log("Sprite created")
-        })
+//             console.log("Sprite created")
+//         })
 
-    });
-}
-loadScene().then(()=>{
-    console.log("Scene loaded")
-})
+//     });
+// }
+// loadScene().then(()=>{
+//     console.log("Scene loaded")
+// })
 
 
 // Resize
