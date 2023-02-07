@@ -17,7 +17,7 @@ var createSprite = async function (scene) {
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
-		console.log(sprite)
+		console.log("sprite")
 	}));
     
 
