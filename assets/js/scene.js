@@ -69,6 +69,84 @@ var createScene = async function () {
         optionalFeatures: true,
     });
     await createSprite(scene,camera);
+
+    // const fm = xr.baseExperience.featuresManager;
+
+    // fm.enableFeature(BABYLON.WebXRBackgroundRemover);
+    // const hitTest = fm.enableFeature(BABYLON.WebXRHitTest, "latest");
+    // const anchorSystem = fm.enableFeature(
+    //   BABYLON.WebXRAnchorSystem,
+    //   "latest"
+    // );
+
+    // const dot = BABYLON.SphereBuilder.CreateSphere(
+    //   "dot",
+    //   {
+    //     diameter: 0.05,
+    //   },
+    //   scene
+    // );
+    // dot.rotationQuaternion = new BABYLON.Quaternion();
+
+    // dot.material = new BABYLON.StandardMaterial("dot", scene);
+    // dot.material.emissiveColor = BABYLON.Color3.FromHexString("#CC9423");
+
+    // dot.isVisible = false;
+
+    // let lastHitTest = null;
+
+    // let currentPair = null;
+
+    // let anchorsAvailable = false;
+
+    // hitTest.onHitTestResultObservable.add((results) => {
+    //   if (results.length) {
+    //     dot.isVisible = true;
+    //     results[0].transformationMatrix.decompose(
+    //       dot.scaling,
+    //       dot.rotationQuaternion,
+    //       dot.position
+    //     );
+    //     lastHitTest = results[0];
+    //   } else {
+    //     lastHitTest = null;
+    //     dot.isVisible = false;
+    //   }
+    // });
+
+    // const processClick = () => {
+    //   const newDot = dot.clone("newDot");
+    //   return newDot;
+    // };
+
+    // anchorSystem.onAnchorAddedObservable.add((anchor) => {
+    //   anchor.attachedNode = processClick();
+    // });
+ 
+    // const xrButton = new BABYLON.WebXRButton(scene, canvas);
+
+    // xrButton.onPointerUpObservable.add(async function () {
+    //     const session = await xr.baseExperience.enterXRAsync(
+    //       "immersive-ar",
+    //       "unbounded",
+    //       xr.renderTarget
+    //     );
+  
+    //     scene.onPointerObservable.add(async (eventData) => {
+    //       if (lastHitTest) {
+    //         if (lastHitTest.xrHitResult.createAnchor) {
+    //           const anchor = await anchorSystem.addAnchorPointUsingHitTestResultAsync(
+    //             lastHitTest
+    //           );
+    //         } else {
+    //           processClick();
+    //         }
+    //       }
+    //     }, BABYLON.PointerEventTypes.POINTERDOWN);
+    //   });
+
+
+    
     // await createWorld(scene,camera);
     return scene;
 };
