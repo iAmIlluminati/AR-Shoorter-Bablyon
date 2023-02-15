@@ -13,12 +13,12 @@ var startRenderLoop = function (engine, canvas) {
 }
 
      
-var addPointerEvent=function(scene){
+var addPointerEvent=function(scene,camera){
     scene.onPointerObservable.add((pointerInfo) => {
         if(pointerInfo && pointerInfo.pickInfo){
             switch (pointerInfo.type) {
        case BABYLON.PointerEventTypes.POINTERTAP:{
-        pickedPoint(scene);
+        pickedPoint(scene,camera);
     }
     break;
             }
@@ -26,7 +26,7 @@ var addPointerEvent=function(scene){
     });
 }
 
-var pickedPoint = function (scene) {
+var pickedPoint = function (scene,camera) {
     var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), null);
     var hit = scene.pickWithRay(ray);
     if(hit.hit){
@@ -35,6 +35,10 @@ var pickedPoint = function (scene) {
         ay = pickedPoint.y;
         az = pickedPoint.z;
         console.log("Sprite Position", pickedPoint);
+        createBullet(scene,camera.position,new BABYLON.Vector3(ax,ay,az)).then(()=>{
+            console.log("Bullet Created")
+        });
+
     }
 }
 
@@ -46,8 +50,6 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
-
-
     // var playerEntity = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
     // playerEntity.position = camera.position;
     // var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
@@ -59,8 +61,9 @@ var createScene = async function () {
     // playerEntity.checkCollisions = true;
   
 
-    addPointerEvent(scene);
+    addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
+     
     light.intensity = 10;    
     var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
