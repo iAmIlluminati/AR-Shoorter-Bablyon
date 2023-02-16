@@ -50,16 +50,8 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
-    // var playerEntity = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
-    // playerEntity.position = camera.position;
-    // var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
-    // playerMaterial.transparency = true;
-    // playerMaterial.alpha = 0.5;
-    // playerEntity.material = playerMaterial;
-    // // Tie the mesh to the camera entity
-    // playerEntity.parent = camera;
-    // playerEntity.checkCollisions = true;
-  
+        
+ 
 
     addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
@@ -72,6 +64,7 @@ var createScene = async function () {
         optionalFeatures: true,
     });
     await loadScene(scene,camera);
+    await createPlayer(scene,camera);
     await shootFromSprite(scene,camera);
 
     return scene;

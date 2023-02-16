@@ -5,7 +5,7 @@ var SPRITE_ID=0;
 //0-Pause/Stopped
 var spriteCounter = 0;
 var currentAvailableSprite = 0;
-const MAX_NUMBER_OF_SPRITES = 4;
+const MAX_NUMBER_OF_SPRITES = 1;
 var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
 
@@ -91,6 +91,17 @@ var loadScene = async function (scene,camera) {
     }, 1000);
 }
 
+
+var createPlayer = async function (scene,camera) {
+    var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 1}, scene);
+    playerEntity.position = camera.position;
+    playerEntity.isPickable = true;
+    // Tie the mesh to the camera entity
+    playerEntity.parent = camera;
+    playerEntity.isVisible = false;
+   
+}
+
 var shootFromSprite = async function (scene,camera) {
     var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
     attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
@@ -123,8 +134,19 @@ var shootFromSprite = async function (scene,camera) {
                 attackBall.animations = [];
                 attackBall.animations.push(animationBox);
                 attackBall.checkCollisions = true;
-            
-            
+                attackBall.actionManager = new BABYLON.ActionManager(scene);
+
+                attackBall.actionManager.registerAction(
+                    new BABYLON.ExecuteCodeAction(
+                        {
+                            trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
+                            parameter: scene.getMeshByName("playerEntity"),
+                        },
+                        () => {
+                            console.log("shoot by sprite lol"); // need to use copy or else they will be both pointing at the same thing & update together
+                        },
+                    ),
+                )    
                 scene.beginAnimation(attackBall, 0, 100, false);
             
                 setTimeout(() => {
