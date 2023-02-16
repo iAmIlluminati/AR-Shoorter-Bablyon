@@ -1,11 +1,15 @@
 const BULLET_RESPONSE_TIME = 2000;
+const SPRITE_ATTACK_RATE = 3000;
+const SPRITE_ATTACK_SPEED = 3000;
 var GLOBAL_STATE=1;
 var SPRITE_ID=0;
 //1-Running
 //0-Pause/Stopped
 var spriteCounter = 0;
 var currentAvailableSprite = 0;
-const MAX_NUMBER_OF_SPRITES = 1;
+const MAX_NUMBER_OF_SPRITES = 2;
+
+
 var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
 
@@ -26,7 +30,7 @@ var createBullet = async function (scene,from, to) {
 
     bullet.position = from;
     // console.log(to)
-        let bulletAnimation = new BABYLON.Animation("myAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        let bulletAnimation = new BABYLON.Animation("myAnimation", "position", 24, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         let keys = [];
         keys.push({
             frame: 0,
@@ -93,7 +97,7 @@ var loadScene = async function (scene,camera) {
 
 
 var createPlayer = async function (scene,camera) {
-    var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 1}, scene);
+    var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 0.25}, scene);
     playerEntity.position = camera.position;
     playerEntity.isPickable = true;
     // Tie the mesh to the camera entity
@@ -125,7 +129,7 @@ var shootFromSprite = async function (scene,camera) {
                     value: attackBall.position
                 });
                 keys.push({
-                    frame: 100,
+                    frame: 150,
                     value: cameraPosition
                 });
                 
@@ -147,7 +151,7 @@ var shootFromSprite = async function (scene,camera) {
                         },
                     ),
                 )    
-                scene.beginAnimation(attackBall, 0, 100, false);
+                scene.beginAnimation(attackBall, 0, 150, false);
             
                 setTimeout(() => {
                     attackBall.dispose();
@@ -157,7 +161,7 @@ var shootFromSprite = async function (scene,camera) {
         }
     
     
-    }, 3000);
+    }, SPRITE_ATTACK_RATE);
 }
 
 
