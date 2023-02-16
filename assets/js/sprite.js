@@ -4,7 +4,7 @@ var SPRITE_ID=0;
 //1-Running
 //0-Pause/Stopped
 var spriteCounter = 0;
-var currentSprite = 0;
+var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 4;
 var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
@@ -49,7 +49,7 @@ var createBullet = async function (scene,from, to) {
     
 }
 var createSprite = async function (scene,camera) {
-    if(currentSprite>=MAX_NUMBER_OF_SPRITES){return}
+    if(currentAvailableSprite>=MAX_NUMBER_OF_SPRITES){return}
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
 
@@ -72,7 +72,7 @@ var createSprite = async function (scene,camera) {
     
     spritesList["sprite"+spriteCounter]={"alive":true,"position":position,"id:":spriteCounter}
     spriteCounter++;
-    currentSprite++;
+    currentAvailableSprite++;
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
@@ -80,6 +80,7 @@ var createSprite = async function (scene,camera) {
         setTimeout(() => {
             sprite.dispose();
             spritesList[sprite.id]["alive"]=false;
+            currentAvailableSprite--;
         },BULLET_RESPONSE_TIME)
 	}));    
 }
@@ -102,7 +103,7 @@ var shootFromSprite = async function (scene,camera) {
             if(spritesList[key]["alive"]==true){
                 console.log("shoot")
                 let attackBall = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
-                attackBall.position = spritesList[key]['position']
+                attackBall.position = new BABYLON.Vector3(spritesList[key]['position'].x,spritesList[key]['position'].y,spritesList[key]['position'].z); 
                
                 attackBall.material = attackBallMaterial;
             
