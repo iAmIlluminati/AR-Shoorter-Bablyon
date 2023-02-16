@@ -64,6 +64,11 @@ var createScene = async function () {
         },
         optionalFeatures: false,
     });
+
+
+
+    
+
     await loadScene(scene,camera);
     await createPlayer(scene,camera);
     await shootFromSprite(scene,camera);

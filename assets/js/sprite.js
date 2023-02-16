@@ -80,11 +80,14 @@ var createSprite = async function (scene,camera) {
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
-		var targetPosition= evt.additionalData.pickedPoint
+        if(GLOBAL_STATE==0){return;}
+        // var targetPosition= evt.additionalData.pickedPoint
         setTimeout(() => {
             sprite.dispose();
-            spritesList[sprite.id]["alive"]=false;
-            currentAvailableSprite--;
+            if(spritesList[sprite.id]["alive"]){
+                spritesList[sprite.id]["alive"]=false;
+                currentAvailableSprite--;
+            }
         },BULLET_RESPONSE_TIME)
 	}));    
 }
@@ -157,6 +160,8 @@ var shootFromSprite = async function (scene,camera) {
                     attackBall.dispose();
                 },5000)
                             
+            }else{
+                delete spritesList[key]
             }
         }
     
