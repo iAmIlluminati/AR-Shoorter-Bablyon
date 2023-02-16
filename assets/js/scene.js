@@ -59,9 +59,10 @@ var createScene = async function () {
     light.intensity = 10;    
     var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
-            sessionMode: 'immersive-ar'
+            sessionMode: 'immersive-ar',
+            // referenceSpaceType:'unbounded'
         },
-        optionalFeatures: true,
+        optionalFeatures: false,
     });
     await loadScene(scene,camera);
     await createPlayer(scene,camera);

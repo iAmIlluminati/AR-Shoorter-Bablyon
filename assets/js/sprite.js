@@ -15,7 +15,7 @@ var spritesList={
 
 }
 var createNewPosition = function(){
-    return {x:Math.random()*10+2,y:Math.random()*10+1,z:Math.random()*10+4}
+    return {x:Math.random()*2+2,y:Math.random()*2+1,z:Math.random()*2+4}
 }
 
 var createBullet = async function (scene,from, to) {
