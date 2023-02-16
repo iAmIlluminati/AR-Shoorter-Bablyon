@@ -34,7 +34,7 @@ var pickedPoint = function (scene,camera) {
         ax = pickedPoint.x;
         ay = pickedPoint.y;
         az = pickedPoint.z;
-        console.log("Sprite Position", pickedPoint);
+        // console.log("Sprite Position", pickedPoint);
         createBullet(scene,camera.position,new BABYLON.Vector3(ax,ay,az)).then(()=>{
             console.log("Bullet Created")
         });
@@ -72,6 +72,8 @@ var createScene = async function () {
         optionalFeatures: true,
     });
     await loadScene(scene,camera);
+    await shootFromSprite(scene,camera);
+
     return scene;
 };
 

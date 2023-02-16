@@ -7,7 +7,7 @@ var spriteCounter = 0;
 var currentSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 4;
 var spritesList={
-    "spritex":{"alive":true,"position":[0,0,0],"id:":"x"},
+    "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
 
 }
 var createNewPosition = function(){
@@ -25,7 +25,7 @@ var createBullet = async function (scene,from, to) {
     bullet.material = bulletBallMaterial;
 
     bullet.position = from;
-    console.log(to)
+    // console.log(to)
         let bulletAnimation = new BABYLON.Animation("myAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         let keys = [];
         keys.push({
@@ -49,16 +49,11 @@ var createBullet = async function (scene,from, to) {
     
 }
 var createSprite = async function (scene,camera) {
-    if(GLOBAL_STATE==0){return;}
     if(currentSprite>=MAX_NUMBER_OF_SPRITES){return}
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
 
-    var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
-    attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
-    attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
 
-    let cameraPosition = camera.position;
     let position = createNewPosition()
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+spriteCounter, {size: 1}, scene);
     sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
@@ -86,46 +81,60 @@ var createSprite = async function (scene,camera) {
             sprite.dispose();
             spritesList[sprite.id]["alive"]=false;
         },BULLET_RESPONSE_TIME)
-	}));
-
-    setInterval(() => {
-        if(GLOBAL_STATE==0){return;}
-        let attackBall = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
-        attackBall.position = new BABYLON.Vector3(position.x, position.y, position.z);
-       
-        attackBall.material = attackBallMaterial;
-
-        var animationBox = new BABYLON.Animation("myAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-        var keys = [];
-        keys.push({
-            frame: 0,
-            value: attackBall.position
-        });
-        keys.push({
-            frame: 100,
-            value: cameraPosition
-        });
-        
-        animationBox.setKeys(keys);
-        
-        attackBall.animations = [];
-        attackBall.animations.push(animationBox);
-        attackBall.checkCollisions = true;
-
-
-        scene.beginAnimation(attackBall, 0, 100, false);
-
-        setTimeout(() => {
-            attackBall.dispose();
-        },5000)
-    }, 3000);
-
-    
+	}));    
 }
 var loadScene = async function (scene,camera) {
     setInterval(() => {
+        if(GLOBAL_STATE==0){return;}
         createSprite(scene,camera);
     }, 1000);
+}
+
+var shootFromSprite = async function (scene,camera) {
+    var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
+    attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
+    attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
+
+    setInterval(() => {
+        let cameraPosition = camera.position;
+        if(GLOBAL_STATE==0){return;}
+        for(let  key in spritesList){
+            if(spritesList[key]["alive"]==true){
+                console.log("shoot")
+                let attackBall = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
+                attackBall.position = spritesList[key]['position']
+               
+                attackBall.material = attackBallMaterial;
+            
+                var animationBox = new BABYLON.Animation("myAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+                var keys = [];
+                keys.push({
+                    frame: 0,
+                    value: attackBall.position
+                });
+                keys.push({
+                    frame: 100,
+                    value: cameraPosition
+                });
+                
+                animationBox.setKeys(keys);
+                
+                attackBall.animations = [];
+                attackBall.animations.push(animationBox);
+                attackBall.checkCollisions = true;
+            
+            
+                scene.beginAnimation(attackBall, 0, 100, false);
+            
+                setTimeout(() => {
+                    attackBall.dispose();
+                },5000)
+                            
+            }
+        }
+    
+    
+    }, 3000);
 }
 
 
