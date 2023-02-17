@@ -92,10 +92,10 @@ function onXRSessionStart(session) {
 // Resize
 window.addEventListener("resize", function () {
     engine.resize();
-    GLOBAL_STATE=1
-    var state = engine;
-    console.log(state)
-    addTheGameGUI();
+    if(engine.isFullscreen){
+        addTheGameGUI();
+        GLOBAL_STATE=1
+    }
 
     
 });
