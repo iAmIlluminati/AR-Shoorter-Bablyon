@@ -74,6 +74,12 @@ var addTheGameGUI = function(){
     gui.addControl(slider);
 }
 
+var removeTheGameGUI = function(){
+    gui.removeControl(score_text);  
+    gui.removeControl(pause_button); 
+    gui.removeControl(slider);
+}
+
 
 function onXRSessionStart(session) {
     console.log('XR session started.');
@@ -95,9 +101,10 @@ window.addEventListener("resize", function () {
     if(engine.isFullscreen){
         addTheGameGUI();
         GLOBAL_STATE=1
-    }
-
-    
+    }else{
+        removeTheGameGUI();
+        GLOBAL_STATE=0
+    }    
 });
 
 
