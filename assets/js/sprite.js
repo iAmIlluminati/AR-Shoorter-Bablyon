@@ -103,7 +103,6 @@ var createSprite = async function (scene,camera) {
 }
 var loadScene = async function (scene,camera) {
     setInterval(() => {
-        if(GLOBAL_STATE==0){return;}
         createSprite(scene,camera);
     }, 1000);
 }
@@ -120,6 +119,8 @@ var createPlayer = async function (scene,camera) {
 }
 
 var shootFromSprite = async function (scene,camera) {
+    if(GLOBAL_STATE==1){return;}
+
     var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
     attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
     attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  

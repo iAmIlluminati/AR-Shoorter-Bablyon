@@ -1,7 +1,8 @@
 var canvas = document.getElementById("renderCanvas");
 
 var engine = null;
-var scene = null;
+var globalScene=null;
+var globalCamera=null;
 var sceneToRender = null;
 
 var startRenderLoop = function (engine, canvas) {
@@ -50,7 +51,7 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
-        
+    glocalCamera=camera    
  
 
     // addPointerEvent(scene,camera);
@@ -85,14 +86,15 @@ var createScene = async function () {
     });
 
 
-
-    
+      
 
     await loadScene(scene,camera);
     await createPlayer(scene,camera);
     await shootFromSprite(scene,camera);
     // await  addHealthbar(false, true, false, 2, 0);
+    globalScene=scene;
     return scene;
+
 };
 
 
