@@ -36,3 +36,50 @@ gui.addControl(score_text);
 var updateScore = async function (score) {
     score_text.text = "Kills : "+score;
 }
+
+
+
+// var header=null
+var slider=null
+// var grid = new BABYLON.GUI.Grid();
+// gui.addControl(grid);
+// grid.addColumnDefinition(0.25);
+// grid.addColumnDefinition(0.25);
+// grid.addColumnDefinition(0.25);
+// grid.addColumnDefinition(0.25);
+// grid.addRowDefinition(0.25);
+// grid.addRowDefinition(0.25);
+// grid.addRowDefinition(0.25);
+// grid.addRowDefinition(0.25);
+
+
+
+var addHealthbar = function(isClamped, row, col) {
+    // var panel = new BABYLON.GUI.StackPanel();
+    // panel.width = "800px";
+    // grid.addControl(panel, row, col);
+    slider = new BABYLON.GUI.Slider();
+    slider.minimum = 0;
+    slider.maximum = 2 * Math.PI;
+    slider.isThumbClamped = isClamped;
+    slider.isVertical = false;
+    slider.displayThumb = false;
+    slider.height = "50px";
+    slider.width = "500px";
+    slider.color = "red";
+    slider.value = 1 * Math.PI*2;
+    slider.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+    slider.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+    slider.left = "40px";
+    slider.top = "210px";
+
+    gui.addControl(slider);
+
+}
+
+addHealthbar(true, 2, 0);
+
+var updateHealth = async function (health) {
+    //value of health ranges from 0-1
+    slider.value = health* Math.PI*2;;
+}

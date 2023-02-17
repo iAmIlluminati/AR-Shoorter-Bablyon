@@ -72,7 +72,7 @@ var createScene = async function () {
     await loadScene(scene,camera);
     await createPlayer(scene,camera);
     await shootFromSprite(scene,camera);
-
+    // await  addHealthbar(false, true, false, 2, 0);
     return scene;
 };
 
