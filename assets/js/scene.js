@@ -56,11 +56,30 @@ var createScene = async function () {
     addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
      
-    light.intensity = 10;    
+    light.intensity = 10;   
+    
+    var btn = document.createElement("button"); // Create a <button> element
+    var t = document.createElement('img');
+    t.src = './assets/gui/play.png';
+    t.style="height: 250px; width: 250px;"; // Set image dimensions
+    btn.appendChild(t); // Append the image to <button>
+    btn.style.display = "flex"; // Set button display to flex
+    btn.style.justifyContent = "center"; // Center horizontally
+    btn.style.alignItems = "center"; // Center vertically
+    btn.style.position = "absolute";
+    btn.style.top = "50%"; // Set top to 50%
+    btn.style.left = "50%"; // Set left to 50%
+    btn.style.transform = "translate(-50%, -50%)"; // Move back 50% of width and height
+    btn.style.backgroundColor = "transparent"; // Set background color to transparent
+    btn.style.border = "none"; // Remove border
+    document.body.appendChild(btn); // Append <button> to the body
+    var xrButton = new BABYLON.WebXREnterExitUIButton(btn, "immersive-ar", "local-floor");
+
+
     var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
             sessionMode: 'immersive-ar',
-            // referenceSpaceType:'unbounded'
+            customButtons: [xrButton]
         },
         optionalFeatures: false,
     });

@@ -89,11 +89,11 @@ var createSprite = async function (scene,camera) {
         // var targetPosition= evt.additionalData.pickedPoint
         setTimeout(() => {
             sprite.dispose();
-            SCORE++;
             updateScore(SCORE);
             if(spritesList[sprite.id]["alive"]){
                 spritesList[sprite.id]["alive"]=false;
                 currentAvailableSprite--;
+                SCORE++;
             }
         },BULLET_RESPONSE_TIME)
 	}));    
@@ -123,6 +123,7 @@ var shootFromSprite = async function (scene,camera) {
 
     setInterval(() => {
         let cameraPosition = camera.position;
+        console.log(cameraPosition)
         if(GLOBAL_STATE==0){return;}
         for(let  key in spritesList){
             if(spritesList[key]["alive"]==true){
