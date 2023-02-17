@@ -73,12 +73,45 @@ var addTheGameGUI = function(){
     gui.addControl(pause_button); 
     gui.addControl(slider);
 }
-addTheGameGUI();
 
+
+function onXRSessionStart(session) {
+    console.log('XR session started.');
+  }
+  
+  function onXRSessionEnd(session) {
+    console.log('XR session ended.');
+  }
+  
+//   if (navigator.xr) {
+//     console.log(navigator.xr);
+//     navigator.xr.addEventListener('ondevicechange', onXRSessionStart);
+//     navigator.xr.addEventListener('visibilitychange', onXRSessionEnd);
+//   }
+
+// Resize
+window.addEventListener("resize", function () {
+    engine.resize();
+    GLOBAL_STATE=1
+    var state = engine;
+    console.log(state)
+    addTheGameGUI();
+
+    
+});
+
+
+
+// console.log(navigator.xr);  
+// if (navigator.xr) {
+//     navigator.xr.addEventListener('xrstatechange', (event) => {
+//       console.log(`XR state changed: ${event.state}`);
+//     });
+//   }
 //   console.log('immersivechange event fired');
 
-// window.addEventListener('immersivechange', event => {
-
+// window.addEventListener('visibilitychange', event => {
+//     console.log(`visibilitychange fired: ${document.visibilityState}`);
 //     if (event && event.target) {
 //       if (event.target === window && window.navigator.xr) {
 //         if (window.navigator.xr.isPresenting) {

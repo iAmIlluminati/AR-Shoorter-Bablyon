@@ -1,7 +1,7 @@
 const BULLET_RESPONSE_TIME = 2000;
 const SPRITE_ATTACK_RATE = 3000;
 const SPRITE_ATTACK_SPEED = 3000;
-var GLOBAL_STATE=1;
+var GLOBAL_STATE=0;
 var SPRITE_ID=0;
 var SCORE=0;
 //1-Running
@@ -61,7 +61,6 @@ var createSprite = async function (scene,camera) {
     if(currentAvailableSprite>=MAX_NUMBER_OF_SPRITES){return}
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
-
 
     let position = createNewPosition()
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+spriteCounter, {size: 1}, scene);

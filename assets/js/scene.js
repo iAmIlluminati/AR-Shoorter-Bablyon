@@ -115,8 +115,4 @@ initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returne
 
 
 
-// Resize
-window.addEventListener("resize", function () {
-    engine.resize();
-});
 
