@@ -92,7 +92,7 @@ window.initFunction = async function () {
     startRenderLoop(engine, canvas);
     window.scene = createScene();
 };
-initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returnedScene; startGameMovements() });});
+initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returnedScene; });});
 
 
 

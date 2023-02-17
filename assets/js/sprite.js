@@ -11,9 +11,9 @@ var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 2;
 
 
-var startGameMovements = function(){
-    GLOBAL_STATE=1;
-}
+// var startGameMovements = function(){
+//     GLOBAL_STATE=1;
+// }
 
 var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
