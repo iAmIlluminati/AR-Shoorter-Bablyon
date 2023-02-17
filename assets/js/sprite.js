@@ -85,7 +85,11 @@ var createSprite = async function (scene,camera) {
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
         if(GLOBAL_STATE==0){return;}
-        // var targetPosition= evt.additionalData.pickedPoint
+        var targetPosition= evt.additionalData.pickedPoint
+
+        createBullet(scene,camera.position,targetPosition).then(()=>{
+            console.log("Bullet Created")
+                    });
         setTimeout(() => {
             sprite.dispose();
             updateScore(SCORE);

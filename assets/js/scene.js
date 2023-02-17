@@ -13,34 +13,34 @@ var startRenderLoop = function (engine, canvas) {
 }
 
      
-var addPointerEvent=function(scene,camera){
-    scene.onPointerObservable.add((pointerInfo) => {
-        if(pointerInfo && pointerInfo.pickInfo){
-            switch (pointerInfo.type) {
-       case BABYLON.PointerEventTypes.POINTERTAP:{
-        pickedPoint(scene,camera);
-    }
-    break;
-            }
-        }
-    });
-}
+// var addPointerEvent=function(scene,camera){
+//     scene.onPointerObservable.add((pointerInfo) => {
+//         if(pointerInfo && pointerInfo.pickInfo){
+//             switch (pointerInfo.type) {
+//        case BABYLON.PointerEventTypes.POINTERTAP:{
+//         pickedPoint(scene,camera);
+//     }
+//     break;
+//             }
+//         }
+//     });
+// }
 
-var pickedPoint = function (scene,camera) {
-    var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), null);
-    var hit = scene.pickWithRay(ray);
-    if(hit.hit){
-        var pickedPoint = hit.pickedPoint;
-        ax = pickedPoint.x;
-        ay = pickedPoint.y;
-        az = pickedPoint.z;
-        // console.log("Sprite Position", pickedPoint);
-        createBullet(scene,camera.position,new BABYLON.Vector3(ax,ay,az)).then(()=>{
-            console.log("Bullet Created")
-        });
+// var pickedPoint = function (scene,camera) {
+//     var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), null);
+//     var hit = scene.pickWithRay(ray);
+//     if(hit.hit){
+//         var pickedPoint = hit.pickedPoint;
+//         ax = pickedPoint.x;
+//         ay = pickedPoint.y;
+//         az = pickedPoint.z;
+//         console.log(camera)
+//         createBullet(scene,camera.position,new BABYLON.Vector3(ax,ay,az)).then(()=>{
+//             console.log("Bullet Created")
+//         });
 
-    }
-}
+//     }
+// }
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 
@@ -53,7 +53,7 @@ var createScene = async function () {
         
  
 
-    addPointerEvent(scene,camera);
+    // addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
      
     light.intensity = 10;   

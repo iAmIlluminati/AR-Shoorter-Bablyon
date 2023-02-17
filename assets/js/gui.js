@@ -96,7 +96,7 @@ function onXRSessionStart(session) {
 //   }
 
 // Resize
-window.addEventListener("resize", function () {
+window.addEventListener("resize", async function () {
     engine.resize();
     if(engine.isFullscreen){
         addTheGameGUI();
