@@ -1,14 +1,19 @@
 const BULLET_RESPONSE_TIME = 2000;
 const SPRITE_ATTACK_RATE = 3000;
 const SPRITE_ATTACK_SPEED = 3000;
-var GLOBAL_STATE=1;
+var GLOBAL_STATE=0;
 var SPRITE_ID=0;
+var SCORE=0;
 //1-Running
 //0-Pause/Stopped
 var spriteCounter = 0;
 var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 2;
 
+
+var startGameMovements = function(){
+    GLOBAL_STATE=1;
+}
 
 var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
@@ -84,6 +89,8 @@ var createSprite = async function (scene,camera) {
         // var targetPosition= evt.additionalData.pickedPoint
         setTimeout(() => {
             sprite.dispose();
+            SCORE++;
+            updateScore(SCORE);
             if(spritesList[sprite.id]["alive"]){
                 spritesList[sprite.id]["alive"]=false;
                 currentAvailableSprite--;
