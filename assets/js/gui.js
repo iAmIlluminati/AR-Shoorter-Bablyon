@@ -20,7 +20,6 @@ pause_button.onPointerClickObservable.add(function () {
     }
 });
 
-gui.addControl(pause_button); 
 
 var score_text = new BABYLON.GUI.TextBlock();
 score_text.text = "Kills : 0";
@@ -30,7 +29,6 @@ score_text.top = "140px";
 score_text.left = "40px";
 score_text.textHorizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
 score_text.textVerticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
-gui.addControl(score_text);  
 
 
 var updateScore = async function (score) {
@@ -39,25 +37,12 @@ var updateScore = async function (score) {
 
 
 
-// var header=null
 var slider=null
-// var grid = new BABYLON.GUI.Grid();
-// gui.addControl(grid);
-// grid.addColumnDefinition(0.25);
-// grid.addColumnDefinition(0.25);
-// grid.addColumnDefinition(0.25);
-// grid.addColumnDefinition(0.25);
-// grid.addRowDefinition(0.25);
-// grid.addRowDefinition(0.25);
-// grid.addRowDefinition(0.25);
-// grid.addRowDefinition(0.25);
+
 
 
 
 var addHealthbar = function(isClamped, row, col) {
-    // var panel = new BABYLON.GUI.StackPanel();
-    // panel.width = "800px";
-    // grid.addControl(panel, row, col);
     slider = new BABYLON.GUI.Slider();
     slider.minimum = 0;
     slider.maximum = 2 * Math.PI;
@@ -73,7 +58,6 @@ var addHealthbar = function(isClamped, row, col) {
     slider.left = "40px";
     slider.top = "210px";
 
-    gui.addControl(slider);
 
 }
 
@@ -83,3 +67,31 @@ var updateHealth = async function (health) {
     //value of health ranges from 0-1
     slider.value = health* Math.PI*2;;
 }
+
+var addTheGameGUI = function(){
+    gui.addControl(score_text);  
+    gui.addControl(pause_button); 
+    gui.addControl(slider);
+}
+addTheGameGUI();
+
+//   console.log('immersivechange event fired');
+
+// window.addEventListener('immersivechange', event => {
+
+//     if (event && event.target) {
+//       if (event.target === window && window.navigator.xr) {
+//         if (window.navigator.xr.isPresenting) {
+//             GLOBAL_STATE=1;
+//             addTheGameGUI();
+//             console.log('User entered immersive AR mode');
+//         } else {
+//           console.log('User exited immersive AR mode');
+//         }
+//       }
+//     }
+//   });
+
+
+
+
