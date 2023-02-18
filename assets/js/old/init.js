@@ -1,4 +1,0 @@
-createGun();
-// createRaycast();
-createPlayer();
-createHealthBar();

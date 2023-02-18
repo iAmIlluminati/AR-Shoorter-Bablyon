@@ -8,9 +8,9 @@ var SCORE=0;
 //0-Pause/Stopped
 var spriteCounter = 0;
 var currentAvailableSprite = 0;
-const MAX_NUMBER_OF_SPRITES = 2;
+const MAX_NUMBER_OF_SPRITES = 4;
 
-
+ 
 // var startGameMovements = function(){
 //     GLOBAL_STATE=1;
 // }
@@ -23,7 +23,7 @@ var spritesList={
 
 
 var createNewPosition = function(){
-    return {x:Math.random()*2+2,y:Math.random()*2+1,z:Math.random()*2+4}
+    return {x:Math.random()*5+2,y:Math.random()*5+1,z:Math.random()*5+4}
 }
 
 var createBullet = async function (scene,from, to) {
