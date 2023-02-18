@@ -51,7 +51,7 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
-    glocalCamera=camera    
+    globalCamera=camera    
  
 
     // addPointerEvent(scene,camera);

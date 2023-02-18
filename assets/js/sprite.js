@@ -87,7 +87,7 @@ var createSprite = async function (scene,camera) {
         if(GLOBAL_STATE==0){return;}
         var targetPosition= evt.additionalData.pickedPoint
 
-        createBullet(scene,camera.position,targetPosition).then(()=>{
+        createBullet(scene,scene.activeCamera.position,targetPosition).then(()=>{
             console.log("Bullet Created")
                     });
         setTimeout(() => {
@@ -110,10 +110,10 @@ var loadScene = async function (scene,camera) {
 
 var createPlayer = async function (scene,camera) {
     var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 0.25}, scene);
-    playerEntity.position = camera.position;
+    playerEntity.position = scene.activeCamera.position;
     playerEntity.isPickable = true;
     // Tie the mesh to the camera entity
-    playerEntity.parent = camera;
+    playerEntity.parent = scene.activeCamera;
     playerEntity.isVisible = false;
    
 }
@@ -126,8 +126,8 @@ var shootFromSprite = async function (scene,camera) {
     attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
 
     setInterval(() => {
-        let cameraPosition = camera.position;
-        console.log(cameraPosition)
+        let cameraPosition = scene.activeCamera.position;
+        // console.log(scene.activescene.activeCamera.position)
         if(GLOBAL_STATE==0){return;}
         for(let  key in spritesList){
             if(spritesList[key]["alive"]==true){
