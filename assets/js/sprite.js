@@ -78,6 +78,35 @@ var createSprite = async function (scene,camera) {
     particleSystem.emitter = sprite;
     particleSystem.start();
     
+
+
+
+
+    // Create the particle system
+var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
+explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png", scene);
+explosionParticleSystem.emitter = sprite;
+explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // set the range of the particles
+explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0);
+explosionParticleSystem.color1 = new BABYLON.Color4(1, 0, 0, 1); // set the color of the particles
+explosionParticleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1);
+explosionParticleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
+explosionParticleSystem.minSize = 0.1; // set the size of the particles
+explosionParticleSystem.maxSize = 0.5;
+explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
+explosionParticleSystem.maxLifeTime = 1.5;
+explosionParticleSystem.emitRate = 500; // set the rate of the particles
+explosionParticleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0); // set the gravity of the particles
+explosionParticleSystem.direction1 = new BABYLON.Vector3(-1, 1, 0); // set the direction of the particles
+explosionParticleSystem.direction2 = new BABYLON.Vector3(1, 1, 0);
+explosionParticleSystem.minAngularSpeed = 0;
+explosionParticleSystem.maxAngularSpeed = Math.PI;
+explosionParticleSystem.minEmitPower = 1;
+explosionParticleSystem.maxEmitPower = 3;
+explosionParticleSystem.updateSpeed = 0.005;
+
+
+
     spritesList["sprite"+spriteCounter]={"alive":true,"position":position,"id:":spriteCounter}
     spriteCounter++;
     currentAvailableSprite++;
@@ -91,7 +120,11 @@ var createSprite = async function (scene,camera) {
             console.log("Bullet Created")
                     });
         setTimeout(() => {
-            sprite.dispose();
+            sprite.isVisible=false;
+            explosionParticleSystem.start();
+            setTimeout(() => { 
+                sprite.dispose();
+             }, 1000);
             updateScore(SCORE);
             if(spritesList[sprite.id]["alive"]){
                 spritesList[sprite.id]["alive"]=false;
