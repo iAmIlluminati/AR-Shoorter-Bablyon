@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <title>Babylon.js sample code</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- Babylon.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
@@ -22,35 +23,13 @@
     <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
     <!-- <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script> -->
 
-    <style>
-        html,
-        body {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
 
-        #topbar {
-            width: 100%;
-            height: 10%;
-            background-color: red;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        #renderCanvas {
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-        }
-    </style>
 </head>
 
 <body>
+    <button class="playButton" id="playButton">
+        <img src="./assets/gui/play.png">
+    </button>
     <canvas id="renderCanvas"></canvas>
 </body>
 <script src="./assets/js/sprite.js"></script>

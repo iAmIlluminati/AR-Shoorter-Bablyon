@@ -1,40 +1,30 @@
-body{
-    margin:0;
-    padding:0;
-    background-color: black;
-}
-.health-value-border{
-    position: absolute;
-    top:30px;
-    left:30px;
-    z-index: 9999;
+html,body {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     padding: 0;
-    width: 100vw;
-    background-color: white; 
-    height: 30px; 
-    border: 5px solid white;
 }
 
-.health-value-filling{
-    width: 40%; 
-    height: 100%; 
-    background-color: red;
+#renderCanvas {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
 }
 
-
-.data{
-    position: fixed;
-    top: 10vh;
-    left:20vw;
-    z-index: 9999;
-    background-color: black;
-    color:white;
+.playButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    border: none;
 }
 
-
-#gameplayScreen{
-    position: relative;
-
-    background-color: black;
-    z-index: 100;
+.playButton img {
+    height: 250px;
+    width: 250px;
 }
