@@ -68,7 +68,7 @@ var pausedScreen = function(){
     pauseGrid.width = "600px";
     pauseGrid.background = "black";
     pauseGrid.cornerRadius = 70;
-    console.log(pauseGrid)
+    // console.log(pauseGrid)
     // create the "Game Paused" text
     pausedText = new BABYLON.GUI.TextBlock();
     pausedText.text = "Game Paused";
