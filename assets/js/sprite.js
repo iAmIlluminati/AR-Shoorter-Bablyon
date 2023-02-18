@@ -1,4 +1,4 @@
-const BULLET_RESPONSE_TIME = 2000;
+const BULLET_RESPONSE_TIME = 1000;
 const SPRITE_ATTACK_RATE = 3000;
 const SPRITE_ATTACK_SPEED = 3000;
 var GLOBAL_STATE=0;
@@ -19,6 +19,9 @@ var spritesList={
     "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
 
 }
+
+
+
 var createNewPosition = function(){
     return {x:Math.random()*2+2,y:Math.random()*2+1,z:Math.random()*2+4}
 }
@@ -42,7 +45,7 @@ var createBullet = async function (scene,from, to) {
             value: bullet.position
         });
         keys.push({
-            frame: 48,
+            frame: 24,
             value: to
         });
         
@@ -50,7 +53,7 @@ var createBullet = async function (scene,from, to) {
         
         bullet.animations = [];
         bullet.animations.push(bulletAnimation);
-        scene.beginAnimation(bullet, 0, 48, false);
+        scene.beginAnimation(bullet, 0, 24, false);
         setTimeout(() => {
             bullet.dispose();
         },BULLET_RESPONSE_TIME)
@@ -61,7 +64,7 @@ var createSprite = async function (scene,camera) {
     if(currentAvailableSprite>=MAX_NUMBER_OF_SPRITES){return}
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
-
+    
     let position = createNewPosition()
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+spriteCounter, {size: 1}, scene);
     sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
@@ -83,27 +86,27 @@ var createSprite = async function (scene,camera) {
 
 
     // Create the particle system
-var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
-explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png", scene);
-explosionParticleSystem.emitter = sprite;
-explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // set the range of the particles
-explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0);
-explosionParticleSystem.color1 = new BABYLON.Color4(1, 0, 0, 1); // set the color of the particles
-explosionParticleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1);
-explosionParticleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
-explosionParticleSystem.minSize = 0.1; // set the size of the particles
-explosionParticleSystem.maxSize = 0.5;
-explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
-explosionParticleSystem.maxLifeTime = 1.5;
-explosionParticleSystem.emitRate = 500; // set the rate of the particles
-explosionParticleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0); // set the gravity of the particles
-explosionParticleSystem.direction1 = new BABYLON.Vector3(-1, 1, 0); // set the direction of the particles
-explosionParticleSystem.direction2 = new BABYLON.Vector3(1, 1, 0);
-explosionParticleSystem.minAngularSpeed = 0;
-explosionParticleSystem.maxAngularSpeed = Math.PI;
-explosionParticleSystem.minEmitPower = 1;
-explosionParticleSystem.maxEmitPower = 3;
-explosionParticleSystem.updateSpeed = 0.005;
+    var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
+    explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
+    explosionParticleSystem.emitter = sprite;
+    explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // set the range of the particles
+    explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0);
+    explosionParticleSystem.color1 = new BABYLON.Color4(1, 0, 0, 1); // set the color of the particles
+    explosionParticleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1);
+    explosionParticleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
+    explosionParticleSystem.minSize = 0.1; // set the size of the particles
+    explosionParticleSystem.maxSize = 0.5;
+    explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
+    explosionParticleSystem.maxLifeTime = 1.5;
+    explosionParticleSystem.emitRate = 500; // set the rate of the particles
+    explosionParticleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0); // set the gravity of the particles
+    explosionParticleSystem.direction1 = new BABYLON.Vector3(-1, 1, 0); // set the direction of the particles
+    explosionParticleSystem.direction2 = new BABYLON.Vector3(1, 1, 0);
+    explosionParticleSystem.minAngularSpeed = 0;
+    explosionParticleSystem.maxAngularSpeed = Math.PI;
+    explosionParticleSystem.minEmitPower = 1;
+    explosionParticleSystem.maxEmitPower = 3;
+    explosionParticleSystem.updateSpeed = 0.005;
 
 
 
@@ -116,12 +119,20 @@ explosionParticleSystem.updateSpeed = 0.005;
         if(GLOBAL_STATE==0){return;}
         var targetPosition= evt.additionalData.pickedPoint
 
+        const bulletSound = new BABYLON.Sound("bullet", "./assets/sounds/bullet.mp3", scene, function () {  
+            bulletSound.play();
+        });
         createBullet(scene,scene.activeCamera.position,targetPosition).then(()=>{
             console.log("Bullet Created")
-                    });
+        });
         setTimeout(() => {
+            const explodeSound = new BABYLON.Sound("explode", "./assets/sounds/explode.wav", scene, function () {  
+                explodeSound.play();
+            });
             sprite.isVisible=false;
             explosionParticleSystem.start();
+
+     
             setTimeout(() => { 
                 sprite.dispose();
              }, 1000);
