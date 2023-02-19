@@ -8,7 +8,7 @@ var SCORE=0;
 //0-Pause/Stopped
 var spriteCounter = 0;
 var currentAvailableSprite = 0;
-const MAX_NUMBER_OF_SPRITES = 4;
+const MAX_NUMBER_OF_SPRITES = 2;
 
  
 // var startGameMovements = function(){
@@ -69,10 +69,10 @@ var createSprite = async function (scene,camera) {
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+spriteCounter, {size: 1}, scene);
     sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
     sprite.material = spriteMaterial;
-    //   Create a particle system
     sprite.isPickable = true;
 
-    const particleSystem = new BABYLON.ParticleSystem("particles", 25);
+    //   Create a particle system
+    const particleSystem = new BABYLON.ParticleSystem("particles", 55);
     particleSystem.minSize = 0.1;
     particleSystem.maxSize = 0.2;
 
@@ -85,8 +85,8 @@ var createSprite = async function (scene,camera) {
 
 
 
-    // Create the particle system
-    var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
+    // Create the explosion particle system
+    var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
     explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
     explosionParticleSystem.emitter = sprite;
     explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // set the range of the particles
@@ -98,7 +98,7 @@ var createSprite = async function (scene,camera) {
     explosionParticleSystem.maxSize = 0.5;
     explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
     explosionParticleSystem.maxLifeTime = 1.5;
-    explosionParticleSystem.emitRate = 500; // set the rate of the particles
+    explosionParticleSystem.emitRate = 200; // set the rate of the particles
     explosionParticleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0); // set the gravity of the particles
     explosionParticleSystem.direction1 = new BABYLON.Vector3(-1, 1, 0); // set the direction of the particles
     explosionParticleSystem.direction2 = new BABYLON.Vector3(1, 1, 0);
@@ -109,6 +109,22 @@ var createSprite = async function (scene,camera) {
     explosionParticleSystem.updateSpeed = 0.005;
 
 
+    var spriteRotationAnimation1 = new BABYLON.Animation("spriteRotationAnimation", "rotation.y", 24, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);    
+    var keys1 = [];
+    keys1.push({ frame: 0, value: 0 });
+    keys1.push({ frame: 150, value: 2 * Math.PI });
+    spriteRotationAnimation1.setKeys(keys1);
+    sprite.animations.push(spriteRotationAnimation1);
+    scene.beginAnimation(sprite, 0, 200, true);
+
+
+    var spriteRotationAnimation2 = new BABYLON.Animation("spriteRotationAnimation", "rotation.x", 24, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);    
+    var keys2 = [];
+    keys2.push({ frame: 0, value: 0 });
+    keys2.push({ frame: 150, value: 2 * Math.PI });
+    spriteRotationAnimation2.setKeys(keys2);
+    sprite.animations.push(spriteRotationAnimation2);
+    scene.beginAnimation(sprite, 0, 200, true);
 
     spritesList["sprite"+spriteCounter]={"alive":true,"position":position,"id:":spriteCounter}
     spriteCounter++;
