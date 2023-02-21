@@ -103,6 +103,15 @@ var pausedScreen = function(){
     exitButton.cornerRadius = 10;
     exitButton.fontSize = 50;
     exitButton.background = "#4b4b4b";
+    exitButton.onPointerClickObservable.add(function () {
+        if(pauseGrid)
+        gui.removeControl(pauseGrid);
+        GLOBAL_STATE=0;        
+        SCORE=0;
+        history.back();
+
+    })
+
     pauseGrid.addControl(exitButton, 2, 0);
 
 }

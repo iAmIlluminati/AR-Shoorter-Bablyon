@@ -2,11 +2,12 @@ const BULLET_RESPONSE_TIME = 1000;
 const SPRITE_ATTACK_RATE = 3000;
 const SPRITE_ATTACK_SPEED = 3000;
 var GLOBAL_STATE=0;
-var SPRITE_ID=0;
 var SCORE=0;
 //1-Running
 //0-Pause/Stopped
-var spriteCounter = 0;
+
+
+var SPRITE_ID = 0;
 var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 2;
 
@@ -45,7 +46,7 @@ var createBullet = async function (scene,from, to) {
             value: bullet.position
         });
         keys.push({
-            frame: 24,
+            frame: 24*BULLET_RESPONSE_TIME/1000,
             value: to
         });
         
@@ -53,7 +54,7 @@ var createBullet = async function (scene,from, to) {
         
         bullet.animations = [];
         bullet.animations.push(bulletAnimation);
-        scene.beginAnimation(bullet, 0, 24, false);
+        scene.beginAnimation(bullet, 0, 24*BULLET_RESPONSE_TIME/1000, false);
         setTimeout(() => {
             bullet.dispose();
         },BULLET_RESPONSE_TIME)
@@ -66,7 +67,7 @@ var createSprite = async function (scene,camera) {
     spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
     
     let position = createNewPosition()
-    var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+spriteCounter, {size: 1}, scene);
+    var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+SPRITE_ID, {size: 1}, scene);
     sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
     sprite.material = spriteMaterial;
     sprite.isPickable = true;
@@ -126,8 +127,8 @@ var createSprite = async function (scene,camera) {
     sprite.animations.push(spriteRotationAnimation2);
     scene.beginAnimation(sprite, 0, 200, true);
 
-    spritesList["sprite"+spriteCounter]={"alive":true,"position":position,"id:":spriteCounter}
-    spriteCounter++;
+    spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID}
+    SPRITE_ID++;
     currentAvailableSprite++;
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
@@ -145,6 +146,11 @@ var createSprite = async function (scene,camera) {
             const explodeSound = new BABYLON.Sound("explode", "./assets/sounds/explode.wav", scene, function () {  
                 explodeSound.play();
             });
+            if(spritesList[sprite.id]["alive"]&&sprite.isVisible){
+                spritesList[sprite.id]["alive"]=false;
+                currentAvailableSprite--;
+                SCORE++;
+            }
             sprite.isVisible=false;
             explosionParticleSystem.start();
 
@@ -152,18 +158,15 @@ var createSprite = async function (scene,camera) {
             setTimeout(() => { 
                 sprite.dispose();
              }, 1000);
-            updateScore(SCORE);
-            if(spritesList[sprite.id]["alive"]){
-                spritesList[sprite.id]["alive"]=false;
-                currentAvailableSprite--;
-                SCORE++;
-            }
+       
         },BULLET_RESPONSE_TIME)
 	}));    
 }
 var loadScene = async function (scene,camera) {
     setInterval(() => {
         createSprite(scene,camera);
+        updateScore(SCORE);
+
     }, 1000);
 }
 
@@ -197,14 +200,14 @@ var shootFromSprite = async function (scene,camera) {
                
                 attackBall.material = attackBallMaterial;
             
-                var animationBox = new BABYLON.Animation("myAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+                var animationBox = new BABYLON.Animation("myAnimation", "position", 24, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
                 var keys = [];
                 keys.push({
                     frame: 0,
                     value: attackBall.position
                 });
                 keys.push({
-                    frame: 150,
+                    frame: 24*SPRITE_ATTACK_SPEED/1000,
                     value: cameraPosition
                 });
                 
@@ -226,7 +229,7 @@ var shootFromSprite = async function (scene,camera) {
                         },
                     ),
                 )    
-                scene.beginAnimation(attackBall, 0, 150, false);
+                scene.beginAnimation(attackBall, 0, 24*SPRITE_ATTACK_SPEED/1000, false);
             
                 setTimeout(() => {
                     attackBall.dispose();
