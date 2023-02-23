@@ -1,4 +1,4 @@
-const BULLET_RESPONSE_TIME = 1000;
+const BULLET_RESPONSE_TIME = 300;
 const SPRITE_ATTACK_RATE = 3000;
 const SPRITE_ATTACK_SPEED = 3000;
 var GLOBAL_STATE=0;
@@ -64,16 +64,29 @@ var createBullet = async function (scene,from, to) {
 var createSprite = async function (scene,camera) {
     if(currentAvailableSprite>=MAX_NUMBER_OF_SPRITES){return}
     var spriteMaterial = new BABYLON.StandardMaterial("spriteMaterial", scene);
-    spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face1.png", scene);
-    
+    spriteMaterial.diffuseTexture = new BABYLON.Texture("./assets/img/face"+Math.ceil(Math.random()*4)+".png", scene);
+    currentAvailableSprite++;
+
     let position = createNewPosition()
+    let positionVector = new BABYLON.Vector3(position.x,position.y,position.z);
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+SPRITE_ID, {size: 1}, scene);
-    sprite.position = new BABYLON.Vector3(position.x,position.y,position.z);
+    // var sprite = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "sphere.glb", scene);
+    // console.log(sprite)
+    // sprite.meshes[0].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // sprite.meshes[1].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // sprite.meshes[2].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // sprite.meshes[0].position = positionVector;
+    // sprite.meshes[1].position = positionVector;
+    // sprite.meshes[2].position = positionVector;
+    sprite.position = positionVector;
+
+    // sprite= sprite.meshes[2];
     sprite.material = spriteMaterial;
     sprite.isPickable = true;
+    console.log("sprite created")
 
     //   Create a particle system
-    const particleSystem = new BABYLON.ParticleSystem("particles", 55);
+    const particleSystem = new BABYLON.ParticleSystem("particles", 100);
     particleSystem.minSize = 0.1;
     particleSystem.maxSize = 0.2;
 
@@ -81,9 +94,18 @@ var createSprite = async function (scene,camera) {
     particleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png");
     particleSystem.emitter = sprite;
     particleSystem.start();
-    
 
-
+    // sprite.isVisible = false;
+    // var spriteOuter = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "sphere.glb", scene);
+    // console.log(spriteOuter)
+    // spriteOuter.meshes[0].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // spriteOuter.meshes[1].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // spriteOuter.meshes[2].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
+    // spriteOuter.meshes[0].position = sprite.position;
+    // spriteOuter.meshes[1].position = sprite.position;
+    // spriteOuter.meshes[2].position = sprite.position;
+//    console.log(spriteOuter)
+    // spriteOuter.meshes[0].parent = sprite;
 
 
     // Create the explosion particle system
@@ -129,7 +151,6 @@ var createSprite = async function (scene,camera) {
 
     spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID}
     SPRITE_ID++;
-    currentAvailableSprite++;
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
@@ -173,8 +194,13 @@ var loadScene = async function (scene,camera) {
 
 var createPlayer = async function (scene,camera) {
     var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 0.25}, scene);
+
+
     playerEntity.position = scene.activeCamera.position;
     playerEntity.isPickable = true;
+
+    // var gun = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "gun.glb", scene);
+    // gun.meshes[0].parent = playerEntity;
     // Tie the mesh to the camera entity
     playerEntity.parent = scene.activeCamera;
     playerEntity.isVisible = false;
@@ -186,7 +212,7 @@ var shootFromSprite = async function (scene,camera) {
 
     var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
     attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
-    attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
+    // attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
 
     setInterval(() => {
         let cameraPosition = scene.activeCamera.position;

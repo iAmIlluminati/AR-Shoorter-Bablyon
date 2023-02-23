@@ -63,7 +63,7 @@ var createScene = async function () {
     // addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
      
-    light.intensity = 10;   
+    light.intensity = 2;   
     
     var btn = document.querySelector("#playButton")
     var xrButton = new BABYLON.WebXREnterExitUIButton(btn, "immersive-ar", "local-floor");
