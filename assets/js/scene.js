@@ -3,6 +3,7 @@ var canvas = document.getElementById("renderCanvas");
 var engine = null;
 var globalScene=null;
 var globalCamera=null;
+var globalXR=null;
 var sceneToRender = null;
 
 var startRenderLoop = function (engine, canvas) {
@@ -53,6 +54,11 @@ var createScene = async function () {
     camera.attachControl(canvas, true);
     globalCamera=camera    
  
+    const available = await BABYLON.WebXRSessionManager.IsSessionSupportedAsync('immersive-ar');
+
+    if (!available) {
+        alert('immersive-ar WebXR session mode is not available in your browser.');
+    }
 
     // addPointerEvent(scene,camera);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
@@ -71,6 +77,7 @@ var createScene = async function () {
         optionalFeatures: false,
     });
 
+    xr.teleportation.detach();
 
       
 
@@ -79,6 +86,8 @@ var createScene = async function () {
     await shootFromSprite(scene,camera);
     // await  addHealthbar(false, true, false, 2, 0);
     globalScene=scene;
+    globalXR=xr;
+    console.log(globalXR)
     return scene;
 
 };

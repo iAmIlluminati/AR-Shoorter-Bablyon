@@ -2,8 +2,8 @@ var gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
 var pause_button = BABYLON.GUI.Button.CreateImageOnlyButton("pause_button", "./assets/gui/pause.png");
 pause_button.top = "140px";
 pause_button.left = "-40px";
-pause_button.width = "100px";
-pause_button.height = "100px";
+pause_button.width = "200px";
+pause_button.height = "200px";
 pause_button.cornerRadius = 20;
 pause_button.thickness = 0;
 pause_button.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
@@ -108,7 +108,8 @@ var pausedScreen = function(){
         gui.removeControl(pauseGrid);
         GLOBAL_STATE=0;        
         SCORE=0;
-        history.back();
+        globalXR.baseExperience.exitXRAsync();
+        // globalXR.sessionManager.exitXRAsync();
 
     })
 
