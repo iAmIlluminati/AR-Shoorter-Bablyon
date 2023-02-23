@@ -30,9 +30,20 @@ var createNewPosition = function(){
 var createBullet = async function (scene,from, to) {
     if(GLOBAL_STATE==0){return;}
     
+    
+    
+    
+    
+    
     var bulletBallMaterial = new BABYLON.StandardMaterial("bulletBallMaterial", scene);
-    bulletBallMaterial.emissiveColor = new BABYLON.Color3(0, 1, 0);  // set neon blue color
-    bulletBallMaterial.diffuseColor = new BABYLON.Color3(0, 1, 0);  
+    bulletBallMaterial.emissiveColor = new BABYLON.Color4(1, 0, 0, 1)  // set neon blue color
+    bulletBallMaterial.diffuseColor = new BABYLON.Color4(1, 1, 0, 1)  
+
+
+
+    // var bulletBallMaterial = new BABYLON.StandardMaterial("bulletBallMaterial", scene);
+	// bulletBallMaterial.ambientTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
+	// bulletBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
 
     let bullet = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
     bullet.material = bulletBallMaterial;
@@ -85,15 +96,15 @@ var createSprite = async function (scene,camera) {
     sprite.isPickable = true;
     console.log("sprite created")
 
-    //   Create a particle system
-    const particleSystem = new BABYLON.ParticleSystem("particles", 100);
-    particleSystem.minSize = 0.1;
-    particleSystem.maxSize = 0.2;
+    // //   Create a particle system
+    // const particleSystem = new BABYLON.ParticleSystem("particles", 100);
+    // particleSystem.minSize = 0.1;
+    // particleSystem.maxSize = 0.2;
 
-    //Texture of each particle
-    particleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png");
-    particleSystem.emitter = sprite;
-    particleSystem.start();
+    // //Texture of each particle
+    // particleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png");
+    // particleSystem.emitter = sprite;
+    // particleSystem.start();
 
     // sprite.isVisible = false;
     // var spriteOuter = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "sphere.glb", scene);
@@ -112,12 +123,12 @@ var createSprite = async function (scene,camera) {
     var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
     explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
     explosionParticleSystem.emitter = sprite;
-    explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // set the range of the particles
-    explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0);
+    explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-0.25, -0.25, -0.25); // set the range of the particles
+    explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(0.25, 0.25, 0.25);
     explosionParticleSystem.color1 = new BABYLON.Color4(1, 0, 0, 1); // set the color of the particles
     explosionParticleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1);
     explosionParticleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
-    explosionParticleSystem.minSize = 0.1; // set the size of the particles
+    explosionParticleSystem.minSize = 0.2; // set the size of the particles
     explosionParticleSystem.maxSize = 0.5;
     explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
     explosionParticleSystem.maxLifeTime = 1.5;
@@ -128,7 +139,7 @@ var createSprite = async function (scene,camera) {
     explosionParticleSystem.minAngularSpeed = 0;
     explosionParticleSystem.maxAngularSpeed = Math.PI;
     explosionParticleSystem.minEmitPower = 1;
-    explosionParticleSystem.maxEmitPower = 3;
+    explosionParticleSystem.maxEmitPower = 2;
     explosionParticleSystem.updateSpeed = 0.005;
 
 
