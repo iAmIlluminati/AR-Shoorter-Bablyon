@@ -3,6 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
 
     <title>Babylon.js sample code</title>
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -27,12 +28,50 @@
 </head>
 
 <body>
+    <audio id="bgm" src="/assets/sounds/bgm.mp3" autoplay="true"></audio>
     <div id="bodyImg"></div>
-    <button class="playButton" id="playButton">
-        <img src="./assets/gui/play.png">
-    </button>
+    <div class="buttonDiv">
+        <button class="playButton btn-3d" id="hiddenXRButton">
+            Start Game
+        </button>
+        <button class="btn-3d" id="decoyButton">
+            Start Game
+        </button>
+        <br />
+        <button class="btn-3d">
+            Instructions
+        </button>
+        <br />
+        <button class="btn-3d" id="BGMSound">
+            Sound : ON
+        </button>
+    </div>
+
     <canvas id="renderCanvas"></canvas>
 </body>
+<script>
+    var AUDIO_STATE = 1
+
+
+    var bgmAudio = document.getElementById("bgm");
+
+    document.querySelector("#decoyButton").onclick = () => {
+        document.querySelector("#hiddenXRButton").click()
+    }
+
+    document.querySelector("#BGMSound").onclick = () => {
+        if (AUDIO_STATE == 1) {
+            bgmAudio.pause();
+            AUDIO_STATE = 0;
+            document.querySelector("#BGMSound").innerHTML = "SOUND : OFF"
+        } else {
+            AUDIO_STATE = 1;
+            bgmAudio.play();
+            document.querySelector("#BGMSound").innerHTML = "SOUND : ON"
+
+        }
+    }
+</script>
 <script src="./assets/js/sprite.js"></script>
 <script src="./assets/js/world.js"></script>
 <script src="./assets/js/scene.js"></script>
