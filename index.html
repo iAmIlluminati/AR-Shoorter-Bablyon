@@ -34,11 +34,12 @@
         <button class="playButton btn-3d" id="hiddenXRButton">
             Start Game
         </button>
+        <br />
         <button class="btn-3d" id="decoyButton">
             Start Game
         </button>
         <br />
-        <button class="btn-3d">
+        <button class="btn-3d" id="instructButton">
             Instructions
         </button>
         <br />
@@ -51,12 +52,26 @@
 </body>
 <script>
     var AUDIO_STATE = 1
-
+    function animateButton() {
+        var button = document.querySelector("button");
+        button.style.transform = "translateY(0)";
+        button.style.boxShadow = "none";
+        setTimeout(function () {
+            button.style.transform = "translateY(2px)";
+            button.style.boxShadow = "0 2px 2px rgba(0,0,0,0.4)";
+        }, 100);
+    }
 
     var bgmAudio = document.getElementById("bgm");
 
     document.querySelector("#decoyButton").onclick = () => {
         document.querySelector("#hiddenXRButton").click()
+        animateButton()
+    }
+
+
+    document.querySelector("#instructButton").onclick = () => {
+        animateButton()
     }
 
     document.querySelector("#BGMSound").onclick = () => {
@@ -70,6 +85,7 @@
             document.querySelector("#BGMSound").innerHTML = "SOUND : ON"
 
         }
+        animateButton()
     }
 </script>
 <script src="./assets/js/sprite.js"></script>
