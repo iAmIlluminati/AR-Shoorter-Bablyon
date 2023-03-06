@@ -29,6 +29,7 @@
 
 <body>
     <audio id="bgm" src="/assets/sounds/bgm.mp3" autoplay="true"></audio>
+    <audio id="click" src="/assets/sounds/click.wav" autoplay="false"></audio>
     <div id="bodyImg"></div>
     <div class="buttonDiv">
         <button class="playButton btn-3d" id="hiddenXRButton">
@@ -59,18 +60,22 @@
         setTimeout(function () {
             button.style.transform = "translateY(2px)";
             button.style.boxShadow = "0 2px 2px rgba(0,0,0,0.4)";
+
         }, 100);
     }
 
     var bgmAudio = document.getElementById("bgm");
+    var clickAudio = document.getElementById("click");
 
     document.querySelector("#decoyButton").onclick = () => {
         document.querySelector("#hiddenXRButton").click()
+        clickAudio.play()
         animateButton()
     }
 
 
     document.querySelector("#instructButton").onclick = () => {
+        clickAudio.play()
         animateButton()
     }
 
@@ -85,6 +90,7 @@
             document.querySelector("#BGMSound").innerHTML = "SOUND : ON"
 
         }
+        clickAudio.play()
         animateButton()
     }
 </script>
