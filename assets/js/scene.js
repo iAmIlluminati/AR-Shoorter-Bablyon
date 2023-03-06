@@ -66,7 +66,6 @@ var createScene = async function () {
     light.intensity = 2;   
     
     var btn = document.querySelector(".playButton")
-    console.log(btn)
     var xrButton = new BABYLON.WebXREnterExitUIButton(btn, "immersive-ar", "local-floor");
 
 

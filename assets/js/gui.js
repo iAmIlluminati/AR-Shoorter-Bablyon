@@ -11,12 +11,15 @@ pause_button.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
 
 
 
+
+
 var score_text = new BABYLON.GUI.TextBlock();
 score_text.text = "Kills : 0";
 score_text.color = "white";
 score_text.fontSize = 50;
 score_text.top = "140px";
 score_text.left = "40px";
+score_text.fontFamily = "PixelFont";
 score_text.textHorizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
 score_text.textVerticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
 
@@ -64,8 +67,8 @@ var pausedScreen = function(){
     pauseGrid.addRowDefinition(0.5, false);
     pauseGrid.addColumnDefinition(1, false);
 
-    pauseGrid.height = "600px";
-    pauseGrid.width = "600px";
+    pauseGrid.height = "660px";
+    pauseGrid.width = "900px";
     pauseGrid.background = "black";
     pauseGrid.cornerRadius = 70;
     // console.log(pauseGrid)
@@ -74,9 +77,10 @@ var pausedScreen = function(){
     pausedText.text = "Game Paused";
     pausedText.color = "white";
     pausedText.fontSize = 70;
-    pausedText.width= "500px";
+    pausedText.width= "750px";
+    pausedText.fontFamily = "PixelFont";
     pauseGrid.addControl(pausedText, 0, 0);
-
+    
     // create the "Resume" button
     var resumeButton = BABYLON.GUI.Button.CreateSimpleButton("resumeButton", "Resume");
     resumeButton.width = "500px";
@@ -85,6 +89,7 @@ var pausedScreen = function(){
     resumeButton.cornerRadius = 10;
     resumeButton.fontSize = 50;
     resumeButton.background = "#4b4b4b";
+    resumeButton.fontFamily = "PixelFont";
     resumeButton.onPointerClickObservable.add(function () {
         if(pauseGrid)
         gui.removeControl(pauseGrid);
@@ -102,6 +107,7 @@ var pausedScreen = function(){
     exitButton.color = "white";
     exitButton.cornerRadius = 10;
     exitButton.fontSize = 50;
+    exitButton.fontFamily = "PixelFont";
     exitButton.background = "#4b4b4b";
     exitButton.onPointerClickObservable.add(function () {
         if(pauseGrid)
