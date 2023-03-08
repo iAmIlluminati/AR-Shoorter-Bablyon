@@ -11,13 +11,8 @@ var SPRITE_ID = 0;
 var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 2;
 
- 
-// var startGameMovements = function(){
-//     GLOBAL_STATE=1;
-// }
-
 var spritesList={
-    "spritex":{"alive":false,"position":[0,0,0],"id:":"x"},
+    "spritex":{"alive":false,"position":[0,0,0],"id:":"x","attack":false},
 
 }
 
@@ -39,11 +34,6 @@ var createBullet = async function (scene,from, to) {
     bulletBallMaterial.emissiveColor = new BABYLON.Color4(1, 0, 0, 1)  // set neon blue color
     bulletBallMaterial.diffuseColor = new BABYLON.Color4(1, 1, 0, 1)  
 
-
-
-    // var bulletBallMaterial = new BABYLON.StandardMaterial("bulletBallMaterial", scene);
-	// bulletBallMaterial.ambientTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
-	// bulletBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
 
     let bullet = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
     bullet.material = bulletBallMaterial;
@@ -81,43 +71,12 @@ var createSprite = async function (scene,camera) {
     let position = createNewPosition()
     let positionVector = new BABYLON.Vector3(position.x,position.y,position.z);
     var sprite = BABYLON.MeshBuilder.CreateBox("sprite"+SPRITE_ID, {size: 1}, scene);
-    // var sprite = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "sphere.glb", scene);
-    // console.log(sprite)
-    // sprite.meshes[0].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // sprite.meshes[1].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // sprite.meshes[2].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // sprite.meshes[0].position = positionVector;
-    // sprite.meshes[1].position = positionVector;
-    // sprite.meshes[2].position = positionVector;
+
     sprite.position = positionVector;
 
-    // sprite= sprite.meshes[2];
     sprite.material = spriteMaterial;
     sprite.isPickable = true;
     console.log("sprite created")
-
-    // //   Create a particle system
-    // const particleSystem = new BABYLON.ParticleSystem("particles", 100);
-    // particleSystem.minSize = 0.1;
-    // particleSystem.maxSize = 0.2;
-
-    // //Texture of each particle
-    // particleSystem.particleTexture = new BABYLON.Texture("./assets/img/particle.png");
-    // particleSystem.emitter = sprite;
-    // particleSystem.start();
-
-    // sprite.isVisible = false;
-    // var spriteOuter = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "sphere.glb", scene);
-    // console.log(spriteOuter)
-    // spriteOuter.meshes[0].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // spriteOuter.meshes[1].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // spriteOuter.meshes[2].scaling = new BABYLON.Vector3(2.1, 2.1, 2.1);
-    // spriteOuter.meshes[0].position = sprite.position;
-    // spriteOuter.meshes[1].position = sprite.position;
-    // spriteOuter.meshes[2].position = sprite.position;
-//    console.log(spriteOuter)
-    // spriteOuter.meshes[0].parent = sprite;
-
 
     // Create the explosion particle system
     var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
@@ -160,11 +119,13 @@ var createSprite = async function (scene,camera) {
     sprite.animations.push(spriteRotationAnimation2);
     scene.beginAnimation(sprite, 0, 200, true);
 
-    spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID}
+    spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID,"attack":false}
     SPRITE_ID++;
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
+        console.log(evt)
+        //The sprite can collide with either bullet or player, so if it is player in attack mode then reduce health 
         if(GLOBAL_STATE==0){return;}
         var targetPosition= evt.additionalData.pickedPoint
 
@@ -210,8 +171,6 @@ var createPlayer = async function (scene,camera) {
     playerEntity.position = scene.activeCamera.position;
     playerEntity.isPickable = true;
 
-    // var gun = await BABYLON.SceneLoader.ImportMeshAsync("", "./assets/models/", "gun.glb", scene);
-    // gun.meshes[0].parent = playerEntity;
     // Tie the mesh to the camera entity
     playerEntity.parent = scene.activeCamera;
     playerEntity.isVisible = false;
