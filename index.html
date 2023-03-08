@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Babylon.js sample code</title>
+    <link rel="stylesheet" href="./assets/css/index.css">
+</head>
+
+<body>
+    <div id="bodyImg"></div>
+</body>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then((reg) => {
+                    console.log('%cA Service Worker is installed Successfully and is ACTIVE for the scope:', 'color: #4cd137;', reg.scope)
+                    setTimeout(() => {
+                        var link = document.createElement('a');
+                        link.href = '/menu.html';
+                        link.click()
+                    }, 1200)
+
+                })
+                .catch((err) => {
+                    console.log('%cService Worker Installation FAILED. ', 'color: #f39c12; font-size: 1.5rem;')
+                    console.log('%cReason: ', 'color: #f39c12;', err)
+                })
+        })
+    }
+
+</script>
+
+</html>

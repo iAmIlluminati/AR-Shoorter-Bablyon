@@ -15,7 +15,7 @@ html,body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url('/assets/img/homescreen.png');
+    background-image: url('/assets/img/menu.png');
     background-size: cover;
     z-index: 5;
 }

@@ -114,12 +114,9 @@ var pausedScreen = function(){
         gui.removeControl(pauseGrid);
         GLOBAL_STATE=0;        
         SCORE=0;
-        // globalXR.baseExperience.exitXRAsync();
         var link = document.createElement('a');
         link.href = '/menu.html';
         link.click()
-        // globalXR.sessionManager.exitXRAsync();
-
     })
 
     pauseGrid.addControl(exitButton, 2, 0);
@@ -175,6 +172,7 @@ window.addEventListener("resize", async function () {
         countDownText.text = countDown;
         countDownText.fontSize = 196;
         countDownText.color = "white";
+        countDownText.fontFamily = "PixelFont";
         countDownText.textHorizontalAlignment =
             BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         countDownText.textVerticalAlignment =
