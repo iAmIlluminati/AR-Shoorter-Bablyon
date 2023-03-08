@@ -15,6 +15,9 @@ html,body {
 video{
     width: 100vw;
     height: 100vh;
+    transform: scale(1.8);
+    -webkit-filter: grayscale(100%);
+	filter: grayscale(100%);
 }
 
 #tapToStart {
