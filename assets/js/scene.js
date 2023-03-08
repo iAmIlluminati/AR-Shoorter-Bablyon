@@ -114,8 +114,8 @@ var createScene = async function () {
 
 
 
-    var light = new BABYLON.HemisphericLight("light1", camera.position, scene);
-    light.intensity = 20;   
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
+    light.intensity = 2;   
     globalLight=light;
 
 
