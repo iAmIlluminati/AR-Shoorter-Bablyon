@@ -1,5 +1,5 @@
 
-    const CACHE = "content-v1" // Name of the Current Cache
+    const CACHE = "content-v15" // Name of the Current Cache
     const DOWNLOADS = "downloads"  // Name of the Downloads Cache - For BG Fetch API
     const OFFLINE = "/offline" // The Offline HTML Page
     
@@ -42,6 +42,7 @@
         "/assets/js/gui.js",
         "/assets/js/world.js",
         "/assets/js/sprite.js",
+        
         // The Pages to Pre-Cache 
         "/menu.html",
         "/game.html",
@@ -100,38 +101,40 @@
     
 
     self.addEventListener("fetch", (event) => {
-    
-    
         // Requests to other domains and requests other than GET to this web app will always fetch from network
         if (
             !event.request.url.startsWith(self.location.origin) ||
             event.request.method !== "GET"
         ) {
-            return void event.respondWith(fetch(event.request).catch((err) => console.log(err)))
+            return void event.respondWith(
+                fetch(event.request).catch((err) =>
+                    console.log(err)
+                ) 
+            )
         }
-        
-    
+
         // Cache First Falling Back to Network Strategy for Local Assets
         event.respondWith(
             caches.match(event.request).then((response) => {
                 if (response) {
                     return response
                 }
-
-                return fetch(event.request).then((response) => {
-                    caches.open(CACHE).then((cache) => {
-                        cache.put(event.request, response.clone())
-                    })
-                    return response
-                }).catch(err => {
-                    return caches.open(CACHE).then((cache) => {
-                        const offlineRequest = new Request(OFFLINE)
-                        return cache.match(offlineRequest)
-                    })
-                })
-            })
-        )
     
+                return fetch(event.request)
+                    .then(async (response) => {
+                        let cache = await caches.open(CACHE)
+                        cache.put(event.request, response.clone())
+                        return response
+                    })
+                    .catch((_) => {
+                        return caches.open(CACHE).then((cache) => {
+                            const offlineRequest = new Request(OFFLINE)
+                            return cache.match(offlineRequest)
+                        })
+                    })
+            }) 
+        )
+        return
     })
     
     
