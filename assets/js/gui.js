@@ -114,7 +114,10 @@ var pausedScreen = function(){
         gui.removeControl(pauseGrid);
         GLOBAL_STATE=0;        
         SCORE=0;
-        globalXR.baseExperience.exitXRAsync();
+        // globalXR.baseExperience.exitXRAsync();
+        var link = document.createElement('a');
+        link.href = '/menu.html';
+        link.click()
         // globalXR.sessionManager.exitXRAsync();
 
     })
