@@ -127,9 +127,16 @@ addHealthbar(true, 2, 0);
 pausedScreen();
 
 
+
+
 var updateHealth = async function (health) {
     //value of health ranges from 0-1
     slider.value = health* Math.PI*2;;
+}
+
+
+var hitTakenHealth = async function () {
+    await updateHealth(slider.value-1/100);
 }
 
 var addTheGameGUI = function(){
