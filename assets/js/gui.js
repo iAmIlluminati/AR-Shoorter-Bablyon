@@ -36,16 +36,17 @@ var slider=null
 
 
 var addHealthbar = function(isClamped, row, col) {
+
     slider = new BABYLON.GUI.Slider();
     slider.minimum = 0;
-    slider.maximum = 2 * Math.PI;
+    slider.maximum = Math.PI;
     slider.isThumbClamped = isClamped;
     slider.isVertical = false;
     slider.displayThumb = false;
     slider.height = "50px";
     slider.width = "500px";
     slider.color = "red";
-    slider.value = 1 * Math.PI*2;
+    slider.value = Math.PI;
     slider.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
     slider.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
     slider.left = "40px";
@@ -206,19 +207,6 @@ pausedScreen();
 
 gameOverScreen();
 
-
-
-
-var updateHealth = async function (health) {
-    //value of health ranges from 0-1
-    slider.value = health* Math.PI*2;;
-}
-
-
-var hitTakenHealth = async function () {
-    await updateHealth(slider.value-1/100);
-}
-
 var addTheGameGUI = function(){
     gui.addControl(score_text);  
     gui.addControl(pause_button); 
@@ -248,7 +236,16 @@ var bringGameOverScreen = function(){
 }
 
 
-
+var TOTAL_HEALTH=100
+var ATTACK_HEATH_REDUCTION=50
+var hitTakenHealth = async function () {
+    TOTAL_HEALTH-=ATTACK_HEATH_REDUCTION
+    slider.value=((TOTAL_HEALTH)*Math.PI)/100;
+    if(TOTAL_HEALTH<=0){
+        GLOBAL_STATE=0;
+        bringGameOverScreen();
+    }
+}
 
     
 pause_button.onPointerClickObservable.add(function () {

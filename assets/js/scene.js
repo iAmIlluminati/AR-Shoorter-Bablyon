@@ -10,43 +10,12 @@ var globalPlane=null;
 var startRenderLoop = function (engine, canvas) {
     engine.runRenderLoop(function () {
         if (sceneToRender && sceneToRender.activeCamera) {
-            // globalPlane.position.copyFrom(sceneToRender.activeCamera.position);
-            // globalPlane.position.z+=2
-            // globalPlane.rotation.copyFrom(sceneToRender.activeCamera.rotation);
             sceneToRender.render();
         }
     });
 }
 
      
-// var addPointerEvent=function(scene,camera){
-//     scene.onPointerObservable.add((pointerInfo) => {
-//         if(pointerInfo && pointerInfo.pickInfo){
-//             switch (pointerInfo.type) {
-//        case BABYLON.PointerEventTypes.POINTERTAP:{
-//         pickedPoint(scene,camera);
-//     }
-//     break;
-//             }
-//         }
-//     });
-// }
-
-// var pickedPoint = function (scene,camera) {
-//     var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), null);
-//     var hit = scene.pickWithRay(ray);
-//     if(hit.hit){
-//         var pickedPoint = hit.pickedPoint;
-//         ax = pickedPoint.x;
-//         ay = pickedPoint.y;
-//         az = pickedPoint.z;
-//         console.log(camera)
-//         createBullet(scene,camera.position,new BABYLON.Vector3(ax,ay,az)).then(()=>{
-//             console.log("Bullet Created")
-//         });
-
-//     }
-// }
 
 
 var setPlaneFilter =async function (type="menu"){
@@ -105,9 +74,8 @@ var createScene = async function () {
       
 
     await loadScene(scene,camera);
-    await createPlayer(scene,camera);
-    // await shootFromSprite(scene,camera);
-    // await  addHealthbar(false, true, false, 2, 0);
+    await spriteAttack(scene);
+    await checkAttackCollision(scene);
     globalScene=scene;
     globalXR=xr;
     

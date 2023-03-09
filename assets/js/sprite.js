@@ -1,6 +1,6 @@
 const BULLET_RESPONSE_TIME = 300;
-const SPRITE_ATTACK_RATE = 3000;
-const SPRITE_ATTACK_SPEED = 3000;
+const SPRITE_ATTACK_RATE = 10000;
+const SPRITE_ATTACK_SPEED = 15000;
 var GLOBAL_STATE=0;
 var SCORE=0;
 //1-Running
@@ -12,7 +12,7 @@ var currentAvailableSprite = 0;
 const MAX_NUMBER_OF_SPRITES = 2;
 
 var spritesList={
-    "spritex":{"alive":false,"position":[0,0,0],"id:":"x","attack":false},
+    // "spritex":{"alive":false,"position":[0,0,0],"id:":"x","attack":false},
 
 }
 
@@ -76,10 +76,10 @@ var createSprite = async function (scene,camera) {
 
     sprite.material = spriteMaterial;
     sprite.isPickable = true;
-    console.log("sprite created")
+    // console.log("sprite created")
 
     // Create the explosion particle system
-    var explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
+    let explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
     explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
     explosionParticleSystem.emitter = sprite;
     explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-0.25, -0.25, -0.25); // set the range of the particles
@@ -119,12 +119,12 @@ var createSprite = async function (scene,camera) {
     sprite.animations.push(spriteRotationAnimation2);
     scene.beginAnimation(sprite, 0, 200, true);
 
-    spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID,"attack":false}
+    spritesList["sprite"+SPRITE_ID]={"alive":true,"position":position,"id:":SPRITE_ID,"attack":false, "ref":sprite}
     SPRITE_ID++;
 
     sprite.actionManager = new BABYLON.ActionManager(scene);
 	sprite.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function (evt) {
-        console.log(evt)
+        // console.log(evt)
         //The sprite can collide with either bullet or player, so if it is player in attack mode then reduce health 
         if(GLOBAL_STATE==0){return;}
         var targetPosition= evt.additionalData.pickedPoint
@@ -163,81 +163,95 @@ var loadScene = async function (scene,camera) {
     }, 1000);
 }
 
-
-var createPlayer = async function (scene,camera) {
-    var playerEntity = BABYLON.MeshBuilder.CreateBox("playerEntity", {size: 0.25}, scene);
-
-
-    playerEntity.position = scene.activeCamera.position;
-    playerEntity.isPickable = true;
-
-    // Tie the mesh to the camera entity
-    playerEntity.parent = scene.activeCamera;
-    playerEntity.isVisible = false;
-   
-}
-
-var shootFromSprite = async function (scene,camera) {
-    if(GLOBAL_STATE==1){return;}
-
-    var attackBallMaterial = new BABYLON.StandardMaterial("attackBallMaterial", scene);
-    attackBallMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);  // set neon blue color
-    // attackBallMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);  
-
+var spriteAttack = async function (scene) {
     setInterval(() => {
-        let cameraPosition = scene.activeCamera.position;
-        // console.log(scene.activescene.activeCamera.position)
         if(GLOBAL_STATE==0){return;}
-        for(let  key in spritesList){
-            if(spritesList[key]["alive"]==true){
-                console.log("shoot")
-                let attackBall = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.1}, scene);
-                attackBall.position = new BABYLON.Vector3(spritesList[key]['position'].x,spritesList[key]['position'].y,spritesList[key]['position'].z); 
-               
-                attackBall.material = attackBallMaterial;
-            
-                var animationBox = new BABYLON.Animation("myAnimation", "position", 24, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-                var keys = [];
-                keys.push({
-                    frame: 0,
-                    value: attackBall.position
-                });
-                keys.push({
-                    frame: 24*SPRITE_ATTACK_SPEED/1000,
-                    value: cameraPosition
-                });
-                
-                animationBox.setKeys(keys);
-                
-                attackBall.animations = [];
-                attackBall.animations.push(animationBox);
-                attackBall.checkCollisions = true;
-                attackBall.actionManager = new BABYLON.ActionManager(scene);
-
-                attackBall.actionManager.registerAction(
-                    new BABYLON.ExecuteCodeAction(
-                        {
-                            trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
-                            parameter: scene.getMeshByName("playerEntity"),
-                        },
-                        () => {
-                            console.log("shoot by sprite lol"); // need to use copy or else they will be both pointing at the same thing & update together
-                        },
-                    ),
-                )    
-                scene.beginAnimation(attackBall, 0, 24*SPRITE_ATTACK_SPEED/1000, false);
-            
-                setTimeout(() => {
-                    attackBall.dispose();
-                },5000)
-                            
-            }else{
-                delete spritesList[key]
+        let angrySpriteDict = null
+        for(i in spritesList){
+            if(spritesList[i]["attack"]==false){
+                spritesList[i]["attack"]=true;
+                angrySpriteDict = spritesList[i];
+                break;
             }
         }
-    
-    
+        if(angrySpriteDict==null){return;}
+        let angrySprite = angrySpriteDict["ref"];
+        let cameraPosition = scene.activeCamera.position;
+        // console.log("attack by", angrySprite, "from", angrySprite.position, "to", cameraPosition)
+
+        var animationBox = new BABYLON.Animation("myAnimation2", "position", 24, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        var keys = [];
+        keys.push({
+            frame: 0,
+            value: angrySprite.position
+        });
+        keys.push({
+            frame: 24*SPRITE_ATTACK_SPEED/1000,
+            value: cameraPosition
+        });
+        
+        animationBox.setKeys(keys);
+        angrySprite.animations = [];
+        angrySprite.animations.push(animationBox);
+        scene.beginAnimation(angrySprite, 0, 24*SPRITE_ATTACK_SPEED/1000, false);
+
     }, SPRITE_ATTACK_RATE);
 }
 
+var checkAttackCollision = async function (scene) {
+    setInterval(() => {
+        if(GLOBAL_STATE==0){return;}
+        let cameraPosition = scene.activeCamera.position;
+        for(let  key in spritesList){
+            if(spritesList[key]["alive"]==true&&spritesList[key]["attack"]==true){
+                let spritePosition = spritesList[key]["ref"].position;
+                if(Math.abs(cameraPosition.x-spritePosition.x)<0.1 && Math.abs(cameraPosition.z-spritePosition.z)<0.1){
+               
+                    // Create the explosion particle system (DUPLICATE)
+                    let explosionParticleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
+                    explosionParticleSystem.particleTexture = new BABYLON.Texture("./assets/img/flare.png", scene);
+                    explosionParticleSystem.emitter = spritesList[key]["ref"];
+                    explosionParticleSystem.minEmitBox = new BABYLON.Vector3(-0.25, -0.25, -0.25); // set the range of the particles
+                    explosionParticleSystem.maxEmitBox = new BABYLON.Vector3(0.25, 0.25, 0.25);
+                    explosionParticleSystem.color1 = new BABYLON.Color4(1, 0, 0, 1); // set the color of the particles
+                    explosionParticleSystem.color2 = new BABYLON.Color4(1, 1, 0, 1);
+                    explosionParticleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
+                    explosionParticleSystem.minSize = 0.2; // set the size of the particles
+                    explosionParticleSystem.maxSize = 0.5;
+                    explosionParticleSystem.minLifeTime = 0.3; // set the lifetime of the particles
+                    explosionParticleSystem.maxLifeTime = 1.5;
+                    explosionParticleSystem.emitRate = 200; // set the rate of the particles
+                    explosionParticleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0); // set the gravity of the particles
+                    explosionParticleSystem.direction1 = new BABYLON.Vector3(-1, 1, 0); // set the direction of the particles
+                    explosionParticleSystem.direction2 = new BABYLON.Vector3(1, 1, 0);
+                    explosionParticleSystem.minAngularSpeed = 0;
+                    explosionParticleSystem.maxAngularSpeed = Math.PI;
+                    explosionParticleSystem.minEmitPower = 1;
+                    explosionParticleSystem.maxEmitPower = 2;
+                    explosionParticleSystem.updateSpeed = 0.005;
+                                  
+                    const explodeSound = new BABYLON.Sound("explode", "./assets/sounds/explode.wav", scene, function () {  
+                        explodeSound.play();
+                    });
+                    console.log(spritesList[key])
+                    if(spritesList[key]["alive"]&&spritesList[key]['ref'].isVisible){
+                        spritesList[key]["alive"]=false;
+                        currentAvailableSprite--;
+                        SCORE++;
+                        hitTakenHealth().then(()=>{
+                            console.log("hit taken")
+                        })
+                    }
+                    spritesList[key]['ref'].isVisible=false;
+                    explosionParticleSystem.start()
 
+                    
+             
+                    setTimeout(() => { 
+                        spritesList[key]["ref"].dispose();
+                     }, 1000);
+                }
+            }
+        }
+    }, 300);
+}
