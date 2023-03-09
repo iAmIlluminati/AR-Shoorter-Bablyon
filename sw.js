@@ -44,8 +44,8 @@
         "/assets/js/sprite.js",
         
         // The Pages to Pre-Cache 
-        "/menu.html",
-        "/game.html",
+        // "/menu.html",
+        // "/game.html",
         
     ]
 

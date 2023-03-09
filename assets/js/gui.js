@@ -115,7 +115,7 @@ var pausedScreen = function(){
         GLOBAL_STATE=0;        
         SCORE=0;
         var link = document.createElement('a');
-        link.href = '/menu.html';
+        link.href = '/menu';
         link.click()
     })
 
