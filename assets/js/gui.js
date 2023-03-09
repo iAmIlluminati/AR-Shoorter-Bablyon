@@ -261,11 +261,17 @@ pause_button.onPointerClickObservable.add(function () {
 
 
 
- var mapGrid=null;
+ var mapContainer=null;
  var positionMap = function () {
-    mapGrid = new BABYLON.GUI.Grid();
-    mapGrid.addRowDefinition(1, false);
-    mapGrid.addColumnDefinition(1, false);
+    const mapContainer = new BABYLON.GUI.Container('parent')    
+    mapContainer.width = "450px"
+    mapContainer.height = "450px";
+    mapContainer.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
+    mapContainer.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+    console.log(mapContainer)
+
+    gui.addControl(mapContainer);
+
     
     var mapCircle = new BABYLON.GUI.Ellipse();
     mapCircle.width = "450px"
@@ -273,18 +279,19 @@ pause_button.onPointerClickObservable.add(function () {
     mapCircle.color = "white";
     mapCircle.thickness = 10;
     mapCircle.background = "transparent";
-    mapCircle.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
-    mapCircle.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
-    mapCircle.right = "40px";
-    mapCircle.top = "40px";
+
+    var userTriangle = BABYLON.GUI.Button.CreateImageOnlyButton("userTriangle", "./assets/gui/user.png");
+    userTriangle.width = "50px"
+    userTriangle.height = "50px";
+    userTriangle.thickness = 0;
+    userTriangle.rotation = 1;
+    // roattaion in Radians
+    console.log(userTriangle)
 
 
+    mapContainer.addControl(mapCircle);
+    mapContainer.addControl(userTriangle);
 
-
-
-    mapGrid.addControl(mapCircle, 0, 0);
-
-    gui.addControl(mapGrid);
 }
 
 positionMap()
