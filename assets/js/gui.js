@@ -154,14 +154,7 @@ var gameOverScreen = function(){
     gameOverText.fontFamily = "PixelFont";
     gameOverGrid.addControl(gameOverText, 0, 0);
 
-      // create the "Kill" text
-      scoreText = new BABYLON.GUI.TextBlock();
-      scoreText.text = "KILLS : "+SCORE;
-      scoreText.color = "white";
-      scoreText.fontSize = 70;
-      scoreText.width= "750px";
-      scoreText.fontFamily = "PixelFont";
-      gameOverGrid.addControl(scoreText, 1, 0);
+   
     
     // create the "Replay" button
     var replayButton = BABYLON.GUI.Button.CreateSimpleButton("replayButton", "Replay");
@@ -204,7 +197,6 @@ var gameOverScreen = function(){
 
     gameOverGrid.addControl(exitButton2, 3, 0);
 
-    gui.addControl(gameOverGrid);
 }
 
 
@@ -214,6 +206,21 @@ pausedScreen();
 
 gameOverScreen();
 
+
+//call this function to show the gameover screen
+var bringGameOverScreen = function(){
+
+    removeTheGameGUI();
+           // create the "Kill" text
+      scoreText = new BABYLON.GUI.TextBlock();
+      scoreText.text = "KILLS : "+SCORE;
+      scoreText.color = "white";
+      scoreText.fontSize = 70;
+      scoreText.width= "750px";
+      scoreText.fontFamily = "PixelFont";
+      gameOverGrid.addControl(scoreText, 1, 0);
+      gui.addControl(gameOverGrid);
+}
 
 
 var updateHealth = async function (health) {
@@ -246,6 +253,7 @@ pause_button.onPointerClickObservable.add(function () {
         GLOBAL_STATE=0;
      }
  });
+
 
 
 // Resize
