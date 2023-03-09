@@ -123,9 +123,96 @@ var pausedScreen = function(){
 
 }
 
+
+var gameOverText=null
+var scoreText=null
+var replayButton=null
+var gameOverGrid=null
+var exitButton2=null
+
+var gameOverScreen = function(){
+    // create the advanced texture
+
+    gameOverGrid = new BABYLON.GUI.Grid();
+    gameOverGrid.addRowDefinition(0.5, false);
+    gameOverGrid.addRowDefinition(0.5, false);
+    gameOverGrid.addRowDefinition(0.5, false);
+    gameOverGrid.addRowDefinition(0.5, false);
+    gameOverGrid.addColumnDefinition(1, false);
+
+    gameOverGrid.height = "860px";
+    gameOverGrid.width = "900px";
+    gameOverGrid.background = "black";
+    gameOverGrid.cornerRadius = 70;
+    // console.log(gameOverGrid)
+    // create the "Game Over" text
+    gameOverText = new BABYLON.GUI.TextBlock();
+    gameOverText.text = "Game Over";
+    gameOverText.color = "white";
+    gameOverText.fontSize = 70;
+    gameOverText.width= "750px";
+    gameOverText.fontFamily = "PixelFont";
+    gameOverGrid.addControl(gameOverText, 0, 0);
+
+      // create the "Kill" text
+      scoreText = new BABYLON.GUI.TextBlock();
+      scoreText.text = "KILLS : "+SCORE;
+      scoreText.color = "white";
+      scoreText.fontSize = 70;
+      scoreText.width= "750px";
+      scoreText.fontFamily = "PixelFont";
+      gameOverGrid.addControl(scoreText, 1, 0);
+    
+    // create the "Replay" button
+    var replayButton = BABYLON.GUI.Button.CreateSimpleButton("replayButton", "Replay");
+    replayButton.width = "600px";
+    replayButton.height = "170px";
+    replayButton.color = "white";
+    replayButton.cornerRadius = 10;
+    replayButton.fontSize = 50;
+    replayButton.background = "#4b4b4b";
+    replayButton.fontFamily = "PixelFont";
+    replayButton.onPointerClickObservable.add(function () {
+        if(gameOverGrid)
+        gui.removeControl(gameOverGrid);
+        addTheGameGUI();
+        GLOBAL_STATE=1;
+        location.reload();
+
+    })
+    gameOverGrid.addControl(replayButton, 2, 0);
+
+
+    // create the "Exit" button
+    exitButton2 = BABYLON.GUI.Button.CreateSimpleButton("exitButton2", "Exit");
+    exitButton2.width = "600px";
+    exitButton2.height = "170px";
+    exitButton2.color = "white";
+    exitButton2.cornerRadius = 10;
+    exitButton2.fontSize = 50;
+    exitButton2.fontFamily = "PixelFont";
+    exitButton2.background = "#4b4b4b";
+    exitButton2.onPointerClickObservable.add(function () {
+        if(gameOverGrid)
+        gui.removeControl(gameOverGrid);
+        GLOBAL_STATE=0;        
+        SCORE=0;
+        var link = document.createElement('a');
+        link.href = '/menu';
+        link.click()
+    })
+
+    gameOverGrid.addControl(exitButton2, 3, 0);
+
+    gui.addControl(gameOverGrid);
+}
+
+
+
 addHealthbar(true, 2, 0);
 pausedScreen();
 
+gameOverScreen();
 
 
 
