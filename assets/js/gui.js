@@ -279,20 +279,10 @@ pause_button.onPointerClickObservable.add(function () {
     mapCircle.top = "40px";
 
 
-    var mapCircle2 = new BABYLON.GUI.Ellipse();
-    mapCircle2.width = "50px"
-    mapCircle2.height = "50px";
-    mapCircle2.color = "white";
-    mapCircle2.thickness = 10;
-    mapCircle2.background = "transparent";
-    mapCircle2.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
-    mapCircle2.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
-    mapCircle2.right = "40px";
-    mapCircle2.top = "40px";
 
 
-    // mapGrid.addControl(mapCircle, 0, 0);
-    mapGrid.addControl(mapCircle2, 0, 0);
+
+    mapGrid.addControl(mapCircle, 0, 0);
 
     gui.addControl(mapGrid);
 }
