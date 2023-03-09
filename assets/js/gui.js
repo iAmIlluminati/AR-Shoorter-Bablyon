@@ -207,20 +207,6 @@ pausedScreen();
 gameOverScreen();
 
 
-//call this function to show the gameover screen
-var bringGameOverScreen = function(){
-
-    removeTheGameGUI();
-           // create the "Kill" text
-      scoreText = new BABYLON.GUI.TextBlock();
-      scoreText.text = "KILLS : "+SCORE;
-      scoreText.color = "white";
-      scoreText.fontSize = 70;
-      scoreText.width= "750px";
-      scoreText.fontFamily = "PixelFont";
-      gameOverGrid.addControl(scoreText, 1, 0);
-      gui.addControl(gameOverGrid);
-}
 
 
 var updateHealth = async function (health) {
@@ -244,6 +230,25 @@ var removeTheGameGUI = function(){
     gui.removeControl(pause_button); 
     gui.removeControl(slider);
 }
+
+
+//call this function to show the gameover screen
+var bringGameOverScreen = function(){
+
+    removeTheGameGUI();
+           // create the "Kill" text
+      scoreText = new BABYLON.GUI.TextBlock();
+      scoreText.text = "KILLS : "+SCORE;
+      scoreText.color = "white";
+      scoreText.fontSize = 70;
+      scoreText.width= "750px";
+      scoreText.fontFamily = "PixelFont";
+      gameOverGrid.addControl(scoreText, 1, 0);
+      gui.addControl(gameOverGrid);
+}
+
+
+
 
     
 pause_button.onPointerClickObservable.add(function () {
