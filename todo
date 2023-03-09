@@ -1,0 +1,5 @@
+Add GUI Page before the scene page, do similar to LoadScene and pass the camera and scene 
+Add Instruction Page
+Enable Map View
+Remove the disposed entry from Dictionary
+Rotate the Triangle based on Camera

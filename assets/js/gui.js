@@ -281,9 +281,14 @@ pause_button.onPointerClickObservable.add(function () {
     userTriangle.width = "50px"
     userTriangle.height = "50px";
     userTriangle.thickness = 0;
-    userTriangle.rotation = 1;
-    // roattaion in Radians
-    console.log(userTriangle)
+//     setInterval(() => {
+//         if(globalScene)
+//         {
+//             console.log(globalScene.activeCamera.rotation)
+//             userTriangle.rotation = globalScene.activeCamera.rotation.z;
+//         }   
+//  }, 200);
+    // rotation in Radians
 
 
     mapContainer.addControl(mapCircle);
