@@ -261,6 +261,44 @@ pause_button.onPointerClickObservable.add(function () {
 
 
 
+ var mapGrid=null;
+ var positionMap = function () {
+    mapGrid = new BABYLON.GUI.Grid();
+    mapGrid.addRowDefinition(1, false);
+    mapGrid.addColumnDefinition(1, false);
+    
+    var mapCircle = new BABYLON.GUI.Ellipse();
+    mapCircle.width = "450px"
+    mapCircle.height = "450px";
+    mapCircle.color = "white";
+    mapCircle.thickness = 10;
+    mapCircle.background = "transparent";
+    mapCircle.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
+    mapCircle.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+    mapCircle.right = "40px";
+    mapCircle.top = "40px";
+
+
+    var mapCircle2 = new BABYLON.GUI.Ellipse();
+    mapCircle2.width = "50px"
+    mapCircle2.height = "50px";
+    mapCircle2.color = "white";
+    mapCircle2.thickness = 10;
+    mapCircle2.background = "transparent";
+    mapCircle2.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
+    mapCircle2.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+    mapCircle2.right = "40px";
+    mapCircle2.top = "40px";
+
+
+    // mapGrid.addControl(mapCircle, 0, 0);
+    mapGrid.addControl(mapCircle2, 0, 0);
+
+    gui.addControl(mapGrid);
+}
+
+positionMap()
+
 // Resize
 var countDown = 0;
 window.addEventListener("resize", async function () {
