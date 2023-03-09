@@ -1,5 +1,5 @@
 
-    const CACHE = "content-v15" // Name of the Current Cache
+    const CACHE = "content-v20" // Name of the Current Cache
     const DOWNLOADS = "downloads"  // Name of the Downloads Cache - For BG Fetch API
     const OFFLINE = "/offline" // The Offline HTML Page
     
@@ -42,7 +42,8 @@
         "/assets/js/gui.js",
         "/assets/js/world.js",
         "/assets/js/sprite.js",
-        
+        "/assets/js/babylon/babylon.js",
+        "/assets/js/babylon/babylon.gui.min.js",
         // The Pages to Pre-Cache 
         // "/menu.html",
         // "/game.html",

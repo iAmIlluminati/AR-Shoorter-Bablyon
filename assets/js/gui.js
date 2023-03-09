@@ -84,7 +84,7 @@ var pausedScreen = function(){
     // create the "Resume" button
     var resumeButton = BABYLON.GUI.Button.CreateSimpleButton("resumeButton", "Resume");
     resumeButton.width = "500px";
-    resumeButton.height = "150px";
+    resumeButton.height = "170px";
     resumeButton.color = "white";
     resumeButton.cornerRadius = 10;
     resumeButton.fontSize = 50;
@@ -103,7 +103,7 @@ var pausedScreen = function(){
     // create the "Exit" button
     exitButton = BABYLON.GUI.Button.CreateSimpleButton("exitButton", "Exit");
     exitButton.width = "500px";
-    exitButton.height = "150px";
+    exitButton.height = "170px";
     exitButton.color = "white";
     exitButton.cornerRadius = 10;
     exitButton.fontSize = 50;
