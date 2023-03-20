@@ -1,12 +1,12 @@
 var canvas = document.getElementById("renderCanvas");
 
 var engine = null;
-var globalScene=null;
-var globalCamera=null;
-var globalLight=null;
-var globalXR=null;
+var globalScene = null;
+var globalCamera = null;
+var globalLight = null;
+var globalXR = null;
 var sceneToRender = null;
-var globalPlane=null;
+var globalPlane = null;
 var startRenderLoop = function (engine, canvas) {
     engine.runRenderLoop(function () {
         if (sceneToRender && sceneToRender.activeCamera) {
@@ -15,28 +15,28 @@ var startRenderLoop = function (engine, canvas) {
     });
 }
 
-     
 
 
-var setPlaneFilter =async function (type="menu"){
 
-        // Define a gray color
-        var planeColor = null;
-        planeColor = new BABYLON.Color3(1, 1, 1);
+var setPlaneFilter = async function (type = "menu") {
 
-        if(type=="menu")
+    // Define a gray color
+    var planeColor = null;
+    planeColor = new BABYLON.Color3(1, 1, 1);
+
+    if (type == "menu")
         planeColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-        if(type=="attack")
+    if (type == "attack")
         planeColor = new BABYLON.Color3(1, 0, 0);
 
-    
-        // // Create a new material with the gray color and a transparency of 0.5
-        var planeMaterial = new BABYLON.StandardMaterial("planeMaterial", globalScene);
-        planeMaterial.diffuseColor = planeColor;
-        planeMaterial.alpha = 0;    
-        // Apply the material to the plane
-        globalPlane.material = planeMaterial;
-    
+
+    // // Create a new material with the gray color and a transparency of 0.5
+    var planeMaterial = new BABYLON.StandardMaterial("planeMaterial", globalScene);
+    planeMaterial.diffuseColor = planeColor;
+    planeMaterial.alpha = 0;
+    // Apply the material to the plane
+    globalPlane.material = planeMaterial;
+
 }
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
@@ -47,8 +47,8 @@ var createScene = async function () {
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
-    globalCamera=camera    
- 
+    globalCamera = camera
+
     const available = await BABYLON.WebXRSessionManager.IsSessionSupportedAsync('immersive-ar');
 
     if (!available) {
@@ -56,7 +56,7 @@ var createScene = async function () {
     }
 
     // addPointerEvent(scene,camera);
-    
+
     var btn = document.querySelector(".playButton")
     var xrButton = new BABYLON.WebXREnterExitUIButton(btn, "immersive-ar", "local-floor");
 
@@ -71,24 +71,26 @@ var createScene = async function () {
 
     xr.teleportation.detach();
 
-      
 
-    await loadScene(scene,camera);
+
+    await loadScene(scene, camera);
     await spriteAttack(scene);
     await checkAttackCollision(scene);
-    globalScene=scene;
-    globalXR=xr;
-    
+    let tempGUI = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI")
+    globalScene = scene;
+    globalXR = xr;
+    await loadAllGUI(scene, camera, tempGUI)
+
 
 
 
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 0), scene);
-    light.intensity = 2;   
-    globalLight=light;
+    light.intensity = 2;
+    globalLight = light;
 
 
-        // Add the post-process to the camera
-        // camera.attachPostProcess(postProcess);
+    // Add the post-process to the camera
+    // camera.attachPostProcess(postProcess);
 
 
     // Create a plane with width and height of 1
@@ -100,7 +102,7 @@ var createScene = async function () {
     // plane.position.z+=2
 
     // await setPlaneFilter();
-    
+
     // scene.addMesh(plane);
 
     return scene;
@@ -123,7 +125,7 @@ window.initFunction = async function () {
     startRenderLoop(engine, canvas);
     window.scene = createScene();
 };
-initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returnedScene; });});
+initFunction().then(() => { scene.then(returnedScene => { sceneToRender = returnedScene; }); });
 
 
 

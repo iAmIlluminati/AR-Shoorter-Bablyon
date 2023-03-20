@@ -1,41 +1,52 @@
-var gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-var pause_button = BABYLON.GUI.Button.CreateImageOnlyButton("pause_button", "./assets/gui/pause.png");
-pause_button.top = "140px";
-pause_button.left = "-40px";
-pause_button.width = "200px";
-pause_button.height = "200px";
-pause_button.cornerRadius = 20;
-pause_button.thickness = 0;
-pause_button.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
-pause_button.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+var gui = null
+var pause_button = null
+var score_text = null
+
+var createLiveGameUI = async function () {
+    pause_button = BABYLON.GUI.Button.CreateImageOnlyButton("pause_button", "./assets/gui/pause.png");
+    pause_button.top = "140px";
+    pause_button.left = "-40px";
+    pause_button.width = "200px";
+    pause_button.height = "200px";
+    pause_button.cornerRadius = 20;
+    pause_button.thickness = 0;
+    pause_button.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+    pause_button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+
+    score_text = new BABYLON.GUI.TextBlock();
+    score_text.text = "Kills : 0";
+    score_text.color = "white";
+    score_text.fontSize = 50;
+    score_text.top = "140px";
+    score_text.left = "40px";
+    score_text.fontFamily = "PixelFont";
+    score_text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+    score_text.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
 
 
+    pause_button.onPointerClickObservable.add(function () {
+        if (GLOBAL_STATE == 1) {
+            removeTheGameGUI();
+            gui.addControl(pauseGrid);
+            GLOBAL_STATE = 0;
+        }
+    });
 
 
-
-var score_text = new BABYLON.GUI.TextBlock();
-score_text.text = "Kills : 0";
-score_text.color = "white";
-score_text.fontSize = 50;
-score_text.top = "140px";
-score_text.left = "40px";
-score_text.fontFamily = "PixelFont";
-score_text.textHorizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
-score_text.textVerticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
-
+}
 
 var updateScore = async function (score) {
-    score_text.text = "Kills : "+score;
+    score_text.text = "Kills : " + score;
 }
 
 
 
-var slider=null
+var slider = null
 
 
 
 
-var addHealthbar = function(isClamped, row, col) {
+var addHealthbar = function (isClamped, row, col) {
 
     slider = new BABYLON.GUI.Slider();
     slider.minimum = 0;
@@ -47,8 +58,8 @@ var addHealthbar = function(isClamped, row, col) {
     slider.width = "500px";
     slider.color = "red";
     slider.value = Math.PI;
-    slider.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
-    slider.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+    slider.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+    slider.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
     slider.left = "40px";
     slider.top = "210px";
 
@@ -56,10 +67,10 @@ var addHealthbar = function(isClamped, row, col) {
 }
 
 
-var pausedText=null
-var exitButton=null
-var pauseGrid=null
-var pausedScreen = function(){
+var pausedText = null
+var exitButton = null
+var pauseGrid = null
+var pausedScreen = function () {
     // create the advanced texture
 
     pauseGrid = new BABYLON.GUI.Grid();
@@ -78,10 +89,10 @@ var pausedScreen = function(){
     pausedText.text = "Game Paused";
     pausedText.color = "white";
     pausedText.fontSize = 70;
-    pausedText.width= "750px";
+    pausedText.width = "750px";
     pausedText.fontFamily = "PixelFont";
     pauseGrid.addControl(pausedText, 0, 0);
-    
+
     // create the "Resume" button
     var resumeButton = BABYLON.GUI.Button.CreateSimpleButton("resumeButton", "Resume");
     resumeButton.width = "500px";
@@ -92,10 +103,10 @@ var pausedScreen = function(){
     resumeButton.background = "#4b4b4b";
     resumeButton.fontFamily = "PixelFont";
     resumeButton.onPointerClickObservable.add(function () {
-        if(pauseGrid)
-        gui.removeControl(pauseGrid);
+        if (pauseGrid)
+            gui.removeControl(pauseGrid);
         addTheGameGUI();
-        GLOBAL_STATE=1;
+        GLOBAL_STATE = 1;
 
     })
     pauseGrid.addControl(resumeButton, 1, 0);
@@ -111,10 +122,10 @@ var pausedScreen = function(){
     exitButton.fontFamily = "PixelFont";
     exitButton.background = "#4b4b4b";
     exitButton.onPointerClickObservable.add(function () {
-        if(pauseGrid)
-        gui.removeControl(pauseGrid);
-        GLOBAL_STATE=0;        
-        SCORE=0;
+        if (pauseGrid)
+            gui.removeControl(pauseGrid);
+        GLOBAL_STATE = 0;
+        SCORE = 0;
         var link = document.createElement('a');
         link.href = '/menu';
         link.click()
@@ -125,13 +136,13 @@ var pausedScreen = function(){
 }
 
 
-var gameOverText=null
-var scoreText=null
-var replayButton=null
-var gameOverGrid=null
-var exitButton2=null
+var gameOverText = null
+var scoreText = null
+var replayButton = null
+var gameOverGrid = null
+var exitButton2 = null
 
-var gameOverScreen = function(){
+var gameOverScreen = function () {
     // create the advanced texture
 
     gameOverGrid = new BABYLON.GUI.Grid();
@@ -151,12 +162,12 @@ var gameOverScreen = function(){
     gameOverText.text = "Game Over";
     gameOverText.color = "white";
     gameOverText.fontSize = 70;
-    gameOverText.width= "750px";
+    gameOverText.width = "750px";
     gameOverText.fontFamily = "PixelFont";
     gameOverGrid.addControl(gameOverText, 0, 0);
 
-   
-    
+
+
     // create the "Replay" button
     var replayButton = BABYLON.GUI.Button.CreateSimpleButton("replayButton", "Replay");
     replayButton.width = "600px";
@@ -167,10 +178,10 @@ var gameOverScreen = function(){
     replayButton.background = "#4b4b4b";
     replayButton.fontFamily = "PixelFont";
     replayButton.onPointerClickObservable.add(function () {
-        if(gameOverGrid)
-        gui.removeControl(gameOverGrid);
+        if (gameOverGrid)
+            gui.removeControl(gameOverGrid);
         addTheGameGUI();
-        GLOBAL_STATE=1;
+        GLOBAL_STATE = 1;
         location.reload();
 
     })
@@ -187,10 +198,10 @@ var gameOverScreen = function(){
     exitButton2.fontFamily = "PixelFont";
     exitButton2.background = "#4b4b4b";
     exitButton2.onPointerClickObservable.add(function () {
-        if(gameOverGrid)
-        gui.removeControl(gameOverGrid);
-        GLOBAL_STATE=0;        
-        SCORE=0;
+        if (gameOverGrid)
+            gui.removeControl(gameOverGrid);
+        GLOBAL_STATE = 0;
+        SCORE = 0;
         var link = document.createElement('a');
         link.href = '/menu';
         link.click()
@@ -202,74 +213,62 @@ var gameOverScreen = function(){
 
 
 
-addHealthbar(true, 2, 0);
-pausedScreen();
 
-gameOverScreen();
-
-var addTheGameGUI = function(){
-    gui.addControl(score_text);  
-    gui.addControl(pause_button); 
+var addTheGameGUI = function () {
+    gui.addControl(score_text);
+    gui.addControl(pause_button);
     gui.addControl(slider);
 }
 
-var removeTheGameGUI = function(){
-    gui.removeControl(score_text);  
-    gui.removeControl(pause_button); 
+var removeTheGameGUI = function () {
+    gui.removeControl(score_text);
+    gui.removeControl(pause_button);
     gui.removeControl(slider);
 }
 
 
 //call this function to show the gameover screen
-var bringGameOverScreen = function(){
+var bringGameOverScreen = function () {
 
     removeTheGameGUI();
-           // create the "Kill" text
-      scoreText = new BABYLON.GUI.TextBlock();
-      scoreText.text = "KILLS : "+SCORE;
-      scoreText.color = "white";
-      scoreText.fontSize = 70;
-      scoreText.width= "750px";
-      scoreText.fontFamily = "PixelFont";
-      gameOverGrid.addControl(scoreText, 1, 0);
-      gui.addControl(gameOverGrid);
+    // create the "Kill" text
+    scoreText = new BABYLON.GUI.TextBlock();
+    scoreText.text = "KILLS : " + SCORE;
+    scoreText.color = "white";
+    scoreText.fontSize = 70;
+    scoreText.width = "750px";
+    scoreText.fontFamily = "PixelFont";
+    gameOverGrid.addControl(scoreText, 1, 0);
+    gui.addControl(gameOverGrid);
 }
 
 
-var TOTAL_HEALTH=100
-var ATTACK_HEATH_REDUCTION=50
+var TOTAL_HEALTH = 100
+var ATTACK_HEATH_REDUCTION = 50
 var hitTakenHealth = async function () {
-    TOTAL_HEALTH-=ATTACK_HEATH_REDUCTION
-    slider.value=((TOTAL_HEALTH)*Math.PI)/100;
-    if(TOTAL_HEALTH<=0){
-        GLOBAL_STATE=0;
+    TOTAL_HEALTH -= ATTACK_HEATH_REDUCTION
+    slider.value = ((TOTAL_HEALTH) * Math.PI) / 100;
+    if (TOTAL_HEALTH <= 0) {
+        GLOBAL_STATE = 0;
         bringGameOverScreen();
     }
 }
 
-    
-pause_button.onPointerClickObservable.add(function () {
-    if(GLOBAL_STATE==1){
-        removeTheGameGUI();
-        gui.addControl(pauseGrid);
-        GLOBAL_STATE=0;
-     }
- });
 
 
 
- var mapContainer=null;
- var positionMap = function () {
-    const mapContainer = new BABYLON.GUI.Container('parent')    
+var mapContainer = null;
+var positionMap = async function (scene, camera) {
+    const mapContainer = new BABYLON.GUI.Container('parent')
     mapContainer.width = "450px"
     mapContainer.height = "450px";
-    mapContainer.verticalAlignment= BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
-    mapContainer.horizontalAlignment= BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+    mapContainer.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
+    mapContainer.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
     console.log(mapContainer)
 
     gui.addControl(mapContainer);
 
-    
+
     var mapCircle = new BABYLON.GUI.Ellipse();
     mapCircle.width = "450px"
     mapCircle.height = "450px";
@@ -281,13 +280,15 @@ pause_button.onPointerClickObservable.add(function () {
     userTriangle.width = "50px"
     userTriangle.height = "50px";
     userTriangle.thickness = 0;
-//     setInterval(() => {
-//         if(globalScene)
-//         {
-//             console.log(globalScene.activeCamera.rotation)
-//             userTriangle.rotation = globalScene.activeCamera.rotation.z;
-//         }   
-//  }, 200);
+
+
+
+
+    setInterval(() => {
+        // console.log(scene.activeCamera)
+        // userTriangle.rotation = -scene.activeCamera.rotationQuaternion.y;
+        // updateSpritePosition(userTriangle, scene.activeCamera.position.x, scene.activeCamera.position.z, 0.5)
+    }, 300);
     // rotation in Radians
 
 
@@ -296,14 +297,25 @@ pause_button.onPointerClickObservable.add(function () {
 
 }
 
-positionMap()
+
+
+var loadAllGUI = async (scene, camera, guiFromScene) => {
+    gui = guiFromScene
+    await createLiveGameUI()
+    // await positionMap(scene, camera)
+    addHealthbar(true, 2, 0);
+    pausedScreen();
+    gameOverScreen();
+
+
+}
 
 // Resize
 var countDown = 0;
 window.addEventListener("resize", async function () {
     engine.resize();
-    if(engine.isFullscreen){
-        countDown = 4;        
+    if (engine.isFullscreen) {
+        countDown = 4;
         var countDownTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("countDownTexture");
         var countDownText = new BABYLON.GUI.TextBlock();
         countDownText.text = countDown;
@@ -323,16 +335,16 @@ window.addEventListener("resize", async function () {
             } else {
                 clearInterval(intervalId);
                 countDownText.dispose();
-                GLOBAL_STATE=1
+                GLOBAL_STATE = 1
 
             }
         }, 1000);
 
         addTheGameGUI();
-    }else{
+    } else {
         removeTheGameGUI();
-        GLOBAL_STATE=0
-    }    
+        GLOBAL_STATE = 0
+    }
 });
 
 
