@@ -60,6 +60,9 @@ var createScene = async function () {
     var btn = document.querySelector(".playButton")
     var xrButton = new BABYLON.WebXREnterExitUIButton(btn, "immersive-ar", "local-floor");
 
+    const music = new BABYLON.Sound("BGM", "/assets/sounds/bgm.mp3", scene, function () {
+        music.play();
+    });
 
     var xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {

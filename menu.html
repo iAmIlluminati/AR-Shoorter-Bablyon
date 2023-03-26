@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script src="/assets/js/babylon/babylon.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Babylon.js sample code</title>
@@ -9,7 +10,7 @@
 </head>
 
 <body>
-    <audio id="bgm" src="/assets/sounds/bgm.mp3" autoplay="true"></audio>
+    <audio id="bgm" src="/assets/sounds/bgm.mp3"></audio>
     <audio id="click" src="/assets/sounds/click.wav" autoplay="false"></audio>
     <div id="bodyImg"></div>
     <div class="buttonDiv">
@@ -25,9 +26,55 @@
             Sound : ON
         </button>
     </div>
+    <div class="custom-component">
+        <span class="custom-close-button">&times;</span>
+        <h2>How to play</h2>
+        <img src="/assets/img/instruction.jpeg" class="screenshot" />
+        <p class="iText">Tap on the angry cubes to kill them</p>
+        <p class="iText">Kill them before they collide on you and damage your health</p>
+        <p class="iText">Maximise the kills</p>
+    </div>
+
 </body>
 <script>
+
+
+    // Get the button and component elements
+    const button = document.querySelector('#instructButton');
+    const component = document.querySelector('.custom-component');
+    const closeButton = document.querySelector('.custom-close-button');
+
+    // Add a click event listener to the button
+    button.addEventListener('click', () => {
+        // Show the component
+        component.style.display = 'block';
+    });
+
+    // Add a click event listener to the close button
+    closeButton.addEventListener('click', () => {
+        // Hide the component
+        component.style.display = 'none';
+    });
+
+    window.onload = function () {
+        // alert("Welcome Back")
+        let audio = document.getElementById('bgm');
+        audio.play().catch(function (error) {
+            console.error('Autoplay failed:', error);
+        });
+
+    }
+
     var AUDIO_STATE = 1
+    window.addEventListener("click", () => {
+        if (AUDIO_STATE) {
+            let audio = document.getElementById('bgm');
+            audio.play().catch(function (error) {
+                console.error('Autoplay failed:', error);
+            });
+        }
+    })
+
     function animateButton() {
         var button = document.querySelector("button");
         button.style.transform = "translateY(0)";
@@ -72,5 +119,6 @@
     }
 
 </script>
+
 
 </html>

@@ -1,7 +1,10 @@
 var gui = null
 var pause_button = null
 var score_text = null
+var bgOnNav = new BABYLON.GUI.Rectangle();
 
+var TEXT_COLOR = "white"
+var DIV_TEXT_COLOR = "goldenrod"
 var createLiveGameUI = async function () {
     pause_button = BABYLON.GUI.Button.CreateImageOnlyButton("pause_button", "./assets/gui/pause.png");
     pause_button.top = "140px";
@@ -15,13 +18,26 @@ var createLiveGameUI = async function () {
 
     score_text = new BABYLON.GUI.TextBlock();
     score_text.text = "Kills : 0";
-    score_text.color = "white";
+    score_text.color = TEXT_COLOR;
     score_text.fontSize = 50;
     score_text.top = "140px";
     score_text.left = "40px";
     score_text.fontFamily = "PixelFont";
     score_text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
     score_text.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+
+
+    // var deviceWidth = max(max(window.innerWidth, document.documentElement.clientWidth), document.body.clientWidth);
+    // var deviceHeight = max(max(window.innerHeight, document.documentElement.clientHeight), document.body.clientHeight);
+
+    // bgOnNav.width = deviceWidth + "px";
+    // bgOnNav.height = "30px";
+
+    // bgOnNav.top = "-" + deviceHeight + "px";
+    // console.log(bgOnNav)
+    // // bgOnNav.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    // // bgOnNav.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    // bgOnNav.background = "blue";
 
 
     pause_button.onPointerClickObservable.add(function () {
@@ -87,7 +103,7 @@ var pausedScreen = function () {
     // create the "Game Paused" text
     pausedText = new BABYLON.GUI.TextBlock();
     pausedText.text = "Game Paused";
-    pausedText.color = "white";
+    pausedText.color = DIV_TEXT_COLOR;
     pausedText.fontSize = 70;
     pausedText.width = "750px";
     pausedText.fontFamily = "PixelFont";
@@ -97,7 +113,7 @@ var pausedScreen = function () {
     var resumeButton = BABYLON.GUI.Button.CreateSimpleButton("resumeButton", "Resume");
     resumeButton.width = "500px";
     resumeButton.height = "170px";
-    resumeButton.color = "white";
+    resumeButton.color = DIV_TEXT_COLOR;
     resumeButton.cornerRadius = 10;
     resumeButton.fontSize = 50;
     resumeButton.background = "#4b4b4b";
@@ -116,7 +132,7 @@ var pausedScreen = function () {
     exitButton = BABYLON.GUI.Button.CreateSimpleButton("exitButton", "Exit");
     exitButton.width = "500px";
     exitButton.height = "170px";
-    exitButton.color = "white";
+    exitButton.color = DIV_TEXT_COLOR;
     exitButton.cornerRadius = 10;
     exitButton.fontSize = 50;
     exitButton.fontFamily = "PixelFont";
@@ -160,7 +176,7 @@ var gameOverScreen = function () {
     // create the "Game Over" text
     gameOverText = new BABYLON.GUI.TextBlock();
     gameOverText.text = "Game Over";
-    gameOverText.color = "white";
+    gameOverText.color = DIV_TEXT_COLOR;
     gameOverText.fontSize = 70;
     gameOverText.width = "750px";
     gameOverText.fontFamily = "PixelFont";
@@ -172,7 +188,7 @@ var gameOverScreen = function () {
     var replayButton = BABYLON.GUI.Button.CreateSimpleButton("replayButton", "Replay");
     replayButton.width = "600px";
     replayButton.height = "170px";
-    replayButton.color = "white";
+    replayButton.color = DIV_TEXT_COLOR;
     replayButton.cornerRadius = 10;
     replayButton.fontSize = 50;
     replayButton.background = "#4b4b4b";
@@ -192,7 +208,7 @@ var gameOverScreen = function () {
     exitButton2 = BABYLON.GUI.Button.CreateSimpleButton("exitButton2", "Exit");
     exitButton2.width = "600px";
     exitButton2.height = "170px";
-    exitButton2.color = "white";
+    exitButton2.color = DIV_TEXT_COLOR;
     exitButton2.cornerRadius = 10;
     exitButton2.fontSize = 50;
     exitButton2.fontFamily = "PixelFont";
@@ -218,12 +234,15 @@ var addTheGameGUI = function () {
     gui.addControl(score_text);
     gui.addControl(pause_button);
     gui.addControl(slider);
+    // gui.addControl(bgOnNav);
+
 }
 
 var removeTheGameGUI = function () {
     gui.removeControl(score_text);
     gui.removeControl(pause_button);
     gui.removeControl(slider);
+    // gui.removeControl(bgOnNav);
 }
 
 
@@ -234,7 +253,7 @@ var bringGameOverScreen = function () {
     // create the "Kill" text
     scoreText = new BABYLON.GUI.TextBlock();
     scoreText.text = "KILLS : " + SCORE;
-    scoreText.color = "white";
+    scoreText.color = DIV_TEXT_COLOR;
     scoreText.fontSize = 70;
     scoreText.width = "750px";
     scoreText.fontFamily = "PixelFont";
@@ -320,7 +339,7 @@ window.addEventListener("resize", async function () {
         var countDownText = new BABYLON.GUI.TextBlock();
         countDownText.text = countDown;
         countDownText.fontSize = 196;
-        countDownText.color = "white";
+        countDownText.color = TEXT_COLOR;
         countDownText.fontFamily = "PixelFont";
         countDownText.textHorizontalAlignment =
             BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -342,7 +361,8 @@ window.addEventListener("resize", async function () {
 
         addTheGameGUI();
     } else {
-        removeTheGameGUI();
+        if (GLOBAL_STATE == 1)
+            removeTheGameGUI();
         GLOBAL_STATE = 0
     }
 });
