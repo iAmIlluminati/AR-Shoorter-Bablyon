@@ -17,7 +17,7 @@ var spritesList = {
 }
 
 
-var MAX_SPRITE_POSITION = { x: 10, y: 5, z: 15 }
+var MAX_SPRITE_POSITION = { x: 10, y: 5, z: 20 }
 var MIN_SPRITE_POSITION = { x: -10, y: 1, z: 4 }
 var createNewPosition = function () {
     return { x: Math.random() * MAX_SPRITE_POSITION.x + MIN_SPRITE_POSITION.x, y: Math.random() * MAX_SPRITE_POSITION.y + MIN_SPRITE_POSITION.y, z: Math.random() * MAX_SPRITE_POSITION.y + MIN_SPRITE_POSITION.z }
