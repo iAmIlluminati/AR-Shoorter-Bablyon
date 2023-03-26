@@ -3,6 +3,7 @@ var pause_button = null
 var score_text = null
 var bgOnNav = new BABYLON.GUI.Rectangle();
 
+
 var TEXT_COLOR = "white"
 var DIV_TEXT_COLOR = "goldenrod"
 var createLiveGameUI = async function () {
@@ -40,13 +41,14 @@ var createLiveGameUI = async function () {
     // bgOnNav.background = "blue";
 
 
-    pause_button.onPointerClickObservable.add(function () {
+    pause_button.onPointerDownObservable.add(function () {
         if (GLOBAL_STATE == 1) {
             removeTheGameGUI();
             gui.addControl(pauseGrid);
             GLOBAL_STATE = 0;
         }
     });
+
 
 
 }
@@ -118,7 +120,7 @@ var pausedScreen = function () {
     resumeButton.fontSize = 50;
     resumeButton.background = "#4b4b4b";
     resumeButton.fontFamily = "PixelFont";
-    resumeButton.onPointerClickObservable.add(function () {
+    resumeButton.onPointerDownObservable.add(function () {
         if (pauseGrid)
             gui.removeControl(pauseGrid);
         addTheGameGUI();
@@ -137,7 +139,7 @@ var pausedScreen = function () {
     exitButton.fontSize = 50;
     exitButton.fontFamily = "PixelFont";
     exitButton.background = "#4b4b4b";
-    exitButton.onPointerClickObservable.add(function () {
+    exitButton.onPointerDownObservable.add(function () {
         if (pauseGrid)
             gui.removeControl(pauseGrid);
         GLOBAL_STATE = 0;
@@ -193,7 +195,7 @@ var gameOverScreen = function () {
     replayButton.fontSize = 50;
     replayButton.background = "#4b4b4b";
     replayButton.fontFamily = "PixelFont";
-    replayButton.onPointerClickObservable.add(function () {
+    replayButton.onPointerDownObservable.add(function () {
         if (gameOverGrid)
             gui.removeControl(gameOverGrid);
         addTheGameGUI();
@@ -213,7 +215,7 @@ var gameOverScreen = function () {
     exitButton2.fontSize = 50;
     exitButton2.fontFamily = "PixelFont";
     exitButton2.background = "#4b4b4b";
-    exitButton2.onPointerClickObservable.add(function () {
+    exitButton2.onPointerDownObservable.add(function () {
         if (gameOverGrid)
             gui.removeControl(gameOverGrid);
         GLOBAL_STATE = 0;
