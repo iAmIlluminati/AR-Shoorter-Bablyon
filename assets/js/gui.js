@@ -32,7 +32,13 @@ BABYLON.GUI.TextBlock.prototype._drawText = function (text, textWidth, y, contex
     context.fillText(text, this._currentMeasure.left + x, y);
 };
 
-
+BABYLON.GUI.Button.prototype.configGUIEvent = function (action) {
+    this.onPointerDownObservable.add(action);
+    this.onPointerUpObservable.add(action);
+    this.onPointerClickObservable.add(action);
+    this.onPointerEnterObservable.add(action);
+    this.onPointerOutObservable.add(action);
+};
 var TEXT_COLOR = "gold"
 var DIV_TEXT_COLOR = "goldenrod"
 var createLiveGameUI = async function () {
@@ -59,14 +65,9 @@ var createLiveGameUI = async function () {
     score_text.drawOutline = true;
     score_text.outlineColor = "black";
     score_text.outlineWidth = 4;
-    // bgOnNav.top = "-" + deviceHeight + "px";
-    // console.log(bgOnNav)
-    // // bgOnNav.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-    // // bgOnNav.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    // bgOnNav.background = "blue";
 
 
-    pause_button.onPointerDownObservable.add(function () {
+    pause_button.configGUIEvent(function () {
         if (GLOBAL_STATE == 1) {
             removeTheGameGUI();
             gui.addControl(pauseGrid);
@@ -145,7 +146,7 @@ var pausedScreen = function () {
     resumeButton.fontSize = 50;
     resumeButton.background = "#4b4b4b";
     resumeButton.fontFamily = "PixelFont";
-    resumeButton.onPointerDownObservable.add(function () {
+    resumeButton.configGUIEvent(function () {
         if (pauseGrid)
             gui.removeControl(pauseGrid);
         addTheGameGUI();
@@ -164,7 +165,7 @@ var pausedScreen = function () {
     exitButton.fontSize = 50;
     exitButton.fontFamily = "PixelFont";
     exitButton.background = "#4b4b4b";
-    exitButton.onPointerDownObservable.add(function () {
+    exitButton.configGUIEvent(function () {
         if (pauseGrid)
             gui.removeControl(pauseGrid);
         GLOBAL_STATE = 0;
@@ -220,7 +221,7 @@ var gameOverScreen = function () {
     replayButton.fontSize = 50;
     replayButton.background = "#4b4b4b";
     replayButton.fontFamily = "PixelFont";
-    replayButton.onPointerDownObservable.add(function () {
+    replayButton.configGUIEvent(function () {
         if (gameOverGrid)
             gui.removeControl(gameOverGrid);
         addTheGameGUI();
@@ -240,7 +241,7 @@ var gameOverScreen = function () {
     exitButton2.fontSize = 50;
     exitButton2.fontFamily = "PixelFont";
     exitButton2.background = "#4b4b4b";
-    exitButton2.onPointerDownObservable.add(function () {
+    exitButton2.configGUIEvent(function () {
         if (gameOverGrid)
             gui.removeControl(gameOverGrid);
         GLOBAL_STATE = 0;
