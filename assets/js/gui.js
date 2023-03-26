@@ -3,8 +3,37 @@ var pause_button = null
 var score_text = null
 var bgOnNav = new BABYLON.GUI.Rectangle();
 
+BABYLON.GUI.TextBlock.prototype._drawText = function (text, textWidth, y, context) {
+    var width = this._currentMeasure.width;
+    var x = 0;
+    switch (this._textHorizontalAlignment) {
+        case BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT:
+            x = 0;
+            break;
+        case BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT:
+            x = width - textWidth;
+            break;
+        case BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER:
+            x = (width - textWidth) / 2;
+            break;
+    }
+    if (this.shadowBlur || this.shadowOffsetX || this.shadowOffsetY) {
+        context.shadowColor = this.shadowColor;
+        context.shadowBlur = this.shadowBlur;
+        context.shadowOffsetX = this.shadowOffsetX;
+        context.shadowOffsetY = this.shadowOffsetY;
+    }
+    if (this.drawOutline) {
+        context.strokeStyle = (this.outlineColor ? this.outlineColor : "black");
+        context.lineWidth = (this.outlineWidth ? this.outlineWidth : 5);
+        context.strokeText(text, this._currentMeasure.left + x, y);
+    }
 
-var TEXT_COLOR = "white"
+    context.fillText(text, this._currentMeasure.left + x, y);
+};
+
+
+var TEXT_COLOR = "gold"
 var DIV_TEXT_COLOR = "goldenrod"
 var createLiveGameUI = async function () {
     pause_button = BABYLON.GUI.Button.CreateImageOnlyButton("pause_button", "./assets/gui/pause.png");
@@ -27,13 +56,9 @@ var createLiveGameUI = async function () {
     score_text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
     score_text.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
 
-
-    // var deviceWidth = max(max(window.innerWidth, document.documentElement.clientWidth), document.body.clientWidth);
-    // var deviceHeight = max(max(window.innerHeight, document.documentElement.clientHeight), document.body.clientHeight);
-
-    // bgOnNav.width = deviceWidth + "px";
-    // bgOnNav.height = "30px";
-
+    score_text.drawOutline = true;
+    score_text.outlineColor = "black";
+    score_text.outlineWidth = 4;
     // bgOnNav.top = "-" + deviceHeight + "px";
     // console.log(bgOnNav)
     // // bgOnNav.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -343,6 +368,12 @@ window.addEventListener("resize", async function () {
         countDownText.fontSize = 196;
         countDownText.color = TEXT_COLOR;
         countDownText.fontFamily = "PixelFont";
+
+        countDownText.drawOutline = true;
+        countDownText.outlineColor = "black";
+        countDownText.outlineWidth = 4;
+
+
         countDownText.textHorizontalAlignment =
             BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         countDownText.textVerticalAlignment =

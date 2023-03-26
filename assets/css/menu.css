@@ -77,7 +77,6 @@ html,body {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: yellow;
-    border: 1px solid black;
     padding: 20px;
     display: none;
     z-index: 15;
@@ -90,6 +89,7 @@ html,body {
   .screenshot{
     width: 100%;
     height: auto;
+    border-radius: 5%;
   }
 
   .iText{
