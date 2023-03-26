@@ -2,6 +2,8 @@ var gui = null
 var pause_button = null
 var score_text = null
 var bgOnNav = new BABYLON.GUI.Rectangle();
+var TOTAL_HEALTH = 100
+var ATTACK_HEATH_REDUCTION = 10
 
 BABYLON.GUI.TextBlock.prototype._drawText = function (text, textWidth, y, context) {
     var width = this._currentMeasure.width;
@@ -39,6 +41,7 @@ BABYLON.GUI.Button.prototype.configGUIEvent = function (action) {
     this.onPointerEnterObservable.add(action);
     this.onPointerOutObservable.add(action);
 };
+
 var TEXT_COLOR = "gold"
 var DIV_TEXT_COLOR = "goldenrod"
 var createLiveGameUI = async function () {
@@ -290,8 +293,7 @@ var bringGameOverScreen = function () {
 }
 
 
-var TOTAL_HEALTH = 100
-var ATTACK_HEATH_REDUCTION = 50
+
 var hitTakenHealth = async function () {
     TOTAL_HEALTH -= ATTACK_HEATH_REDUCTION
     slider.value = ((TOTAL_HEALTH) * Math.PI) / 100;

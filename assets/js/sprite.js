@@ -1,6 +1,6 @@
 const BULLET_RESPONSE_TIME = 300;
-const SPRITE_ATTACK_RATE = 10000;
-const SPRITE_ATTACK_SPEED = 15000;
+const SPRITE_ATTACK_RATE = 1500;
+const SPRITE_ATTACK_SPEED = 1500;
 var GLOBAL_STATE = 0;
 var SCORE = 0;
 //1-Running
@@ -9,7 +9,7 @@ var SCORE = 0;
 
 var SPRITE_ID = 0;
 var currentAvailableSprite = 0;
-const MAX_NUMBER_OF_SPRITES = 2;
+const MAX_NUMBER_OF_SPRITES = 5;
 
 var spritesList = {
     // "spritex":{"alive":false,"position":[0,0,0],"id:":"x","attack":false},
